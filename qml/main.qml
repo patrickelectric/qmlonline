@@ -87,6 +87,9 @@ Rectangle {
                     Keys.onPressed: {
                         if (event.key == Qt.Key_Escape) {
                             codeEdit.focus = false
+                            if(userParentItem.userItem) {
+                                userParentItem.userItem.focus = true
+                            }
                         }
                     }
                 }
