@@ -8,7 +8,9 @@ ApplicationWindow {
     visible: true
 
     property var exampleCode: `/* QML online!
- * You can check the offline/desktop version here [QHot!]:
+ * Repository: https://github.com/patrickelectric/qmlonline
+ *
+ * You can check the offline/desktop version here **QHot!**:
  *     https://github.com/patrickelectric/qhot
  *
  * I'm working heavily and the web version is WIP,
