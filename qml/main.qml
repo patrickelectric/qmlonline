@@ -16,7 +16,7 @@ ApplicationWindow {
  *
  */
 
-// - Use Ctrl+S or the "Update!" button update the Qml
+// - Just edit the text or use the "Update!" button to update the Qml
 // - Use your browser console to check the error/warning messages!
 import QtQuick 2.7
 import QtQuick.Controls 2.3
@@ -43,32 +43,57 @@ Rectangle {
     SplitView {
         anchors.fill: parent
         orientation: Qt.Horizontal
+        SplitView.minimumWidth: codeEdit.contentWidth
 
         ColumnLayout {
             id: pathLayout
             Layout.fillHeight: true
             Layout.fillWidth: true
-            TextEdit {
-                id: pathEdit
+            Flickable {
+                id: flick
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                text: exampleCode
-                onEditingFinished: updateItem()
-                Component.onCompleted: updateItem()
-                function updateItem() {
-                    userParentItem.create(pathEdit.text)
+                Layout.minimumWidth: codeEdit.contentWidth
+                clip: true
+
+                function updateViewerPosition(cursorRectangle)
+                {
+                    if (contentX >= cursorRectangle.x) {
+                        contentX = cursorRectangle.x
+                    } else if (contentX + width <= cursorRectangle.x + cursorRectangle.width) {
+                        contentX = cursorRectangle.x + cursorRectangle.width - width
+                    } else if (contentY >= cursorRectangle.y) {
+                        contentY = cursorRectangle.y
+                    } else if (contentY + height <= cursorRectangle.y + cursorRectangle.height) {
+                        contentY = cursorRectangle.y + cursorRectangle.height - height
+                    }
                 }
 
-                Shortcut {
-                    sequence: "Ctrl+S"
-                    onActivated: pathEdit.updateItem()
+                TextEdit {
+                    id: codeEdit
+                    focus: false
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    text: exampleCode
+                    onTextChanged: updateItem()
+                    onCursorRectangleChanged: flick.updateViewerPosition(cursorRectangle)
+
+                    function updateItem() {
+                        userParentItem.create(codeEdit.text)
+                    }
+
+                    Keys.onPressed: {
+                        if (event.key == Qt.Key_Escape) {
+                            codeEdit.focus = false
+                        }
+                    }
                 }
             }
             Button {
-                id: pathEditButton
+                id: codeEditButton
                 Layout.fillWidth: true
-                text: "ok!"
-                onClicked: pathEdit.updateItem()
+                text: "Update!"
+                onClicked: codeEdit.updateItem()
             }
         }
 
