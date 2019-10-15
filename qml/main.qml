@@ -71,7 +71,7 @@ Rectangle {
                     }
                 }
 
-                TextEdit {
+                TextArea {
                     id: codeEdit
                     focus: false
                     Layout.fillHeight: true
