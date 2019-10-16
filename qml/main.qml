@@ -73,9 +73,10 @@ Rectangle {
 
                 TextArea {
                     id: codeEdit
-                    focus: false
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    focus: false
+                    selectByMouse: true
                     text: exampleCode
                     onTextChanged: updateItem()
                     onCursorRectangleChanged: flick.updateViewerPosition(cursorRectangle)
