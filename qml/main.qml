@@ -43,33 +43,22 @@ Rectangle {
 }`
 
     SplitView {
-        anchors.fill: parent
+        // Anchors and Layout are not working
+        width: parent.width
+        height: parent.height
+
         orientation: Qt.Horizontal
-        SplitView.minimumWidth: codeEdit.contentWidth
 
         ColumnLayout {
             id: pathLayout
             Layout.fillHeight: true
-            Layout.fillWidth: true
-            Flickable {
-                id: flick
+            Layout.minimumWidth: view.contentWidth
+            ScrollView {
+                id: view
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.minimumWidth: codeEdit.contentWidth
                 clip: true
-
-                function updateViewerPosition(cursorRectangle)
-                {
-                    if (contentX >= cursorRectangle.x) {
-                        contentX = cursorRectangle.x
-                    } else if (contentX + width <= cursorRectangle.x + cursorRectangle.width) {
-                        contentX = cursorRectangle.x + cursorRectangle.width - width
-                    } else if (contentY >= cursorRectangle.y) {
-                        contentY = cursorRectangle.y
-                    } else if (contentY + height <= cursorRectangle.y + cursorRectangle.height) {
-                        contentY = cursorRectangle.y + cursorRectangle.height - height
-                    }
-                }
 
                 TextArea {
                     id: codeEdit
@@ -79,7 +68,6 @@ Rectangle {
                     selectByMouse: true
                     text: exampleCode
                     onTextChanged: updateItem()
-                    onCursorRectangleChanged: flick.updateViewerPosition(cursorRectangle)
 
                     function updateItem() {
                         userParentItem.create(codeEdit.text)
