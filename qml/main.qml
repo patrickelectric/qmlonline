@@ -70,6 +70,8 @@ Rectangle {
                             Layout.fillHeight: true
                             anchors.topMargin: codeEdit.topPadding
                             delegate: Text {
+                                Layout.fillWidth: true
+                                horizontalAlignment: Text.AlignRight
                                 text: index
                                 color: 'gray'
                                 anchors.margins: 0
