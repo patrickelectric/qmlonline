@@ -60,24 +60,42 @@ Rectangle {
                 Layout.minimumWidth: codeEdit.contentWidth
                 clip: true
 
-                TextArea {
-                    id: codeEdit
+                RowLayout {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    focus: false
-                    selectByMouse: true
-                    text: exampleCode
-                    onTextChanged: updateItem()
-
-                    function updateItem() {
-                        userParentItem.create(codeEdit.text)
+                    ColumnLayout {
+                        spacing: 0
+                        Repeater {
+                            model: codeEdit.lineCount
+                            Layout.fillHeight: true
+                            anchors.topMargin: codeEdit.topPadding
+                            delegate: Text {
+                                text: index
+                                color: 'gray'
+                                anchors.margins: 0
+                            }
+                        }
                     }
+                    TextArea {
+                        id: codeEdit
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        leftPadding: 2
+                        focus: false
+                        selectByMouse: true
+                        text: exampleCode
+                        onTextChanged: updateItem()
 
-                    Keys.onPressed: {
-                        if (event.key == Qt.Key_Escape) {
-                            codeEdit.focus = false
-                            if(userParentItem.userItem) {
-                                userParentItem.userItem.focus = true
+                        function updateItem() {
+                            userParentItem.create(codeEdit.text)
+                        }
+
+                        Keys.onPressed: {
+                            if (event.key == Qt.Key_Escape) {
+                                codeEdit.focus = false
+                                if(userParentItem.userItem) {
+                                    userParentItem.userItem.focus = true
+                                }
                             }
                         }
                     }
