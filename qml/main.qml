@@ -20,6 +20,7 @@ ApplicationWindow {
 
 // - Just edit the text or use the "Update!" button to update the Qml
 // - Use your browser console to check the error/warning messages!
+// - If something is not working, check if you are running the https version
 import QtQuick 2.7
 import QtQuick.Controls 2.3
 
