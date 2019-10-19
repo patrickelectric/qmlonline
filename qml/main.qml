@@ -84,7 +84,6 @@ Rectangle {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         leftPadding: 2
-                        focus: false
                         selectByMouse: true
                         text: exampleCode
                         onTextChanged: updateItem()
@@ -99,6 +98,10 @@ Rectangle {
                                 if(userParentItem.userItem) {
                                     userParentItem.userItem.focus = true
                                 }
+                            } else if (event.key == Qt.Key_Tab) {
+                                // Tabs are an unholy thing
+                                codeEdit.insert(cursorPosition, "    ");
+                                event.accepted = true;
                             }
                         }
                     }
