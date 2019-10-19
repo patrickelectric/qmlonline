@@ -38,7 +38,7 @@ Rectangle {
             loops: Animation.Infinite
             from: 0
             to: 360
-            duration: 700
+            duration: 1500
         }
     }
 }`
