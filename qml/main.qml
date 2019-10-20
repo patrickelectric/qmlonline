@@ -2,12 +2,46 @@ import QtQuick 2.12
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
+import Examples 1.0
 import SyntaxHighlighter 1.0
 
 ApplicationWindow {
     id: window
     title: "qmlonline"
     visible: true
+
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("&File")
+            Action { text: qsTr("&New...") }
+            Action { text: qsTr("&Open...") }
+            Action { text: qsTr("&Save") }
+            Action { text: qsTr("Save &As...") }
+            MenuSeparator { }
+            Action { text: qsTr("&Quit") }
+            Menu {
+                title: qsTr("potato")
+                Action { text: qsTr("&Quit") }
+            }
+        }
+        Menu {
+            title: qsTr("&Edit")
+            Action { text: qsTr("Cu&t") }
+            Action { text: qsTr("&Copy") }
+            Action { text: qsTr("&Paste") }
+        }
+        Menu {
+            title: qsTr("potato")
+            ScrollView {
+                anchors.fill: parent
+            Action { text: qsTr("&About") }
+            }
+        }
+    }
+
+    Examples {
+        id: examples
+    }
 
     property var exampleCode: `/* QML online!
  * Repository: https://github.com/patrickelectric/qmlonline
