@@ -3,6 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
 import Examples 1.0
+import Util 1.0
 import SyntaxHighlighter 1.0
 
 ApplicationWindow {
@@ -12,7 +13,7 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
-            title: qsTr("E&xamples")
+            title: "Examples"
             Repeater {
                 model: examples.examples
                 MenuItem {
@@ -21,12 +22,51 @@ ApplicationWindow {
                 }
             }
         }
+        Menu {
+            title: "Tools"
+            MenuItem {
+                text: "Share"
+                onTriggered: popup.show(Util.createSharedCode(codeEdit.text))
+            }
+        }
+    }
+
+    Popup {
+        id: popup
+        modal: true
+        focus: true
+        width: textEdit.width*1.2
+        height: textEdit.height*1.2
+        anchors.centerIn: parent
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+        TextEdit {
+            id: textEdit
+            anchors.centerIn: parent
+            horizontalAlignment: TextEdit.AlignHCenter
+            verticalAlignment: TextEdit.AlignVCenter
+            readOnly: true
+            width: window.width/2
+            selectByMouse: true
+            wrapMode: TextEdit.WrapAnywhere
+        }
+        function show(content) {
+            textEdit.text = content
+            textEdit.select(0, textEdit.text.length)
+            popup.open()
+            textEdit.copy()
+        }
+
     }
 
     Examples {
         id: examples
         Component.onCompleted: {
-            codeEdit.text = examples.getTextFromExample("Rotation Animator")
+            if(codeEdit.text == "") {
+                codeEdit.text = requestDefault()
+            }
+        }
+        function requestDefault() {
+            return examples.getTextFromExample("Rotation Animator")
         }
     }
 
@@ -73,7 +113,7 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         leftPadding: 4
                         selectByMouse: true
-                        text: exampleCode
+                        text: Util.sharedCode()
                         property var cursorLineNumber: 0
                         onTextChanged: updateItem()
                         onCursorPositionChanged: {
