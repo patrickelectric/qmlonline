@@ -37,4 +37,8 @@ script:
   fi
 
 after_success:
+- if [ "$TRAVIS_BRANCH" != "master" ]; then
+    echo "$TRAVIS_BRANCH is not master, deploy will not be done.";
+    exit 0;
+  fi
 - if [ ! -z "${WEBASM}" ]; then git push origin gh-pages; fi
