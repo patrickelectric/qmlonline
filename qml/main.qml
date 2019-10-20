@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
+import Examples 1.0
 import SyntaxHighlighter 1.0
 
 ApplicationWindow {
@@ -9,41 +10,25 @@ ApplicationWindow {
     title: "qmlonline"
     visible: true
 
-    property var exampleCode: `/* QML online!
- * Repository: https://github.com/patrickelectric/qmlonline
- *
- * You can check the offline/desktop version here **QHot!**:
- *     https://github.com/patrickelectric/qhot
- *
- * I'm working heavily and the web version is WIP,
- * be patient (and happy!), changes will be done soon.
- *
- */
-
-// - Just edit the text or use the "Update!" button to update the Qml
-// - Use your browser console to check the error/warning messages!
-// - If something is not working, check if you are running the https version
-import QtQuick 2.7
-import QtQuick.Controls 2.3
-
-Rectangle {
-    color: "red"
-    anchors.fill: parent
-
-    Text {
-        text: "WEEEEEEEEEE"
-        font.pixelSize: 50
-        color: "white"
-        anchors.centerIn: parent
-        RotationAnimator on rotation {
-            running: true
-            loops: Animation.Infinite
-            from: 0
-            to: 360
-            duration: 1500
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("E&xamples")
+            Repeater {
+                model: examples.examples
+                MenuItem {
+                    text: modelData.name
+                    onTriggered: codeEdit.text = examples.getTextFromExample(text)
+                }
+            }
         }
     }
-}`
+
+    Examples {
+        id: examples
+        Component.onCompleted: {
+            codeEdit.text = examples.getTextFromExample("Rotation Animator")
+        }
+    }
 
     SplitView {
         // Anchors and Layout are not working
