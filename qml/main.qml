@@ -77,6 +77,7 @@ Rectangle {
                                 horizontalAlignment: Text.AlignRight
                                 text: index + 1
                                 color: 'gray'
+                                font.bold: codeEdit.cursorLineNumber - 1 == index
                                 anchors.margins: 0
                             }
                         }
@@ -85,10 +86,14 @@ Rectangle {
                         id: codeEdit
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        leftPadding: 2
+                        leftPadding: 4
                         selectByMouse: true
                         text: exampleCode
+                        property var cursorLineNumber: 0
                         onTextChanged: updateItem()
+                        onCursorPositionChanged: {
+                            codeEdit.cursorLineNumber = codeEdit.text.substr(0, cursorPosition).split("\n").length
+                        }
 
                         function updateItem() {
                             userParentItem.create(codeEdit.text)
@@ -105,6 +110,17 @@ Rectangle {
                                 codeEdit.insert(cursorPosition, "    ");
                                 event.accepted = true;
                             }
+                        }
+
+                        Rectangle {
+                            color: "yellow"
+                            width: codeEdit.width + codeEdit.x
+                            height: codeEdit.cursorRectangle.height
+                            visible: codeEdit.focus
+                            opacity: 0.2
+                            z: codeEdit.z -1
+                            y: codeEdit.cursorRectangle.y
+                            x: - codeEdit.x
                         }
                     }
 
