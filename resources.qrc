@@ -2,4 +2,9 @@
     <qresource prefix="/">
         <file alias="main.qml">qml/main.qml</file>
     </qresource>
+    <qresource prefix="/examples">
+        <file alias="Canvas Advanced.qml">qml/examples/canvasadvanced.qml</file>
+        <file alias="Repeater.qml">qml/examples/repeater.qml</file>
+        <file alias="Rotation Animator.qml">qml/examples/rotationanimator.qml</file>
+    </qresource>
 </RCC>
