@@ -75,7 +75,7 @@ Rectangle {
                             delegate: Text {
                                 Layout.fillWidth: true
                                 horizontalAlignment: Text.AlignRight
-                                text: index
+                                text: index + 1
                                 color: 'gray'
                                 anchors.margins: 0
                             }
