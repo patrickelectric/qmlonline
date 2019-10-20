@@ -26,7 +26,10 @@ ApplicationWindow {
     Examples {
         id: examples
         Component.onCompleted: {
-            codeEdit.text = examples.getTextFromExample("Rotation Animator")
+            codeEdit.text = requestDefault()
+        }
+        function requestDefault() {
+            return examples.getTextFromExample("Rotation Animator")
         }
     }
 
@@ -73,10 +76,11 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         leftPadding: 4
                         selectByMouse: true
-                        text: exampleCode
+                        text: SHARED_CODE ? SHARED_CODE : examples.requestDefault()
                         property var cursorLineNumber: 0
                         onTextChanged: updateItem()
                         onCursorPositionChanged: {
+                            print(SHARED_CODE)
                             codeEdit.cursorLineNumber = codeEdit.text.substr(0, cursorPosition).split("\n").length
                         }
 
