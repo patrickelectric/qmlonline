@@ -26,7 +26,23 @@ ApplicationWindow {
             title: "Tools"
             MenuItem {
                 text: "Share"
-                onTriggered: popup.show(Util.createSharedCode(codeEdit.text))
+                onTriggered: {
+                    request(Util.createSharedCode(codeEdit.text))
+                }
+            }
+        }
+    }
+
+    function request(url) {
+        var request = new XMLHttpRequest();
+        print("https://tinyurl.com/api-create.php\?url\=" + url)
+        request.open('GET', "https://tinyurl.com/api-create.php\?url\=" + url);
+        request.send();
+        request.onload = function() {
+            if (request.status == 200) {
+                popup.show(`${request.response}`)
+            } else {
+                print(`GET Error ${request.status}: ${request.statusText}`);
             }
         }
     }
@@ -35,8 +51,8 @@ ApplicationWindow {
         id: popup
         modal: true
         focus: true
-        width: textEdit.width*1.2
-        height: textEdit.height*1.2
+        width: textEdit.width
+        height: textEdit.height*3
         anchors.centerIn: parent
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
         TextEdit {
