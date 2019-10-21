@@ -22,7 +22,7 @@ QString Util::sharedCode() const
 
 QString Util::createSharedCode(const QString& code) const
 {
-    return "https://patrickelectric.work/qmlonline?code=" + QString(QUrl::toPercentEncoding(code));
+    return "https://patrickelectric.work/qmlonline/?code=" + QString(QUrl::toPercentEncoding(code));
 }
 
 QObject* Util::qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine)
