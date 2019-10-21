@@ -27,7 +27,10 @@ ApplicationWindow {
             MenuItem {
                 text: "Share"
                 onTriggered: {
-                    request(Util.createSharedCode(codeEdit.text))
+                    // Waiting for CROS fix...
+                    //request(Util.createSharedCode(codeEdit.text))
+                    popup.show(Util.createSharedCode(codeEdit.text))
+
                 }
             }
         }
