@@ -22,7 +22,11 @@ QString Util::sharedCode() const
 
 QString Util::createSharedCode(const QString& code) const
 {
-    return "https://patrickelectric.work/qmlonline/?code=" + QString(QUrl::toPercentEncoding(code));
+    auto url = QString("https://patrickelectric.work/qmlonline/?code=") + code;
+    for(const auto item : _urlEncodeMap.toStdMap()) {
+        url.replace(item.first, item.second);
+    }
+    return url;
 }
 
 QObject* Util::qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QMap>
 
 class QJSEngine;
 class QQmlEngine;
@@ -53,4 +54,27 @@ private:
      *
      */
     Util() = default;
+
+    // QUrl can't do the necessary decode
+    QMap<QString, QString> _urlEncodeMap {
+        {"\t","%09"},
+        {"\n","%0A"},
+        {"\r","%0D"},
+        {" ","%20"},
+        {"!","%21"},
+        {"\"","%22"},
+        {"#","%23"},
+        {"$","%24"},
+        {"%","%25"},
+        {"&","%26"},
+        {"'","%27"},
+        {"(","%28"},
+        {")","%29"},
+        {"+","%2B"},
+        {",","%2C"},
+        {"-","%2D"},
+        {"/","%2F"},
+        {":","%3A"},
+        {";","%3B"},
+    };
 };
