@@ -42,8 +42,8 @@
 #define __DEPRECATED 1
 #define __EMSCRIPTEN__ 1
 #define __EMSCRIPTEN_major__ 1
-#define __EMSCRIPTEN_minor__ 38
-#define __EMSCRIPTEN_tiny__ 47
+#define __EMSCRIPTEN_minor__ 39
+#define __EMSCRIPTEN_tiny__ 0
 #define __EXCEPTIONS 1
 #define __FINITE_MATH_ONLY__ 0
 #define __FLT16_DECIMAL_DIG__ 5
