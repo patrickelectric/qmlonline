@@ -20,16 +20,17 @@ QString Util::sharedCode() const
     return QUrl::fromPercentEncoding(code.toLatin1());
 }
 
-QString Util::createSharedCode(const QString& code) const
+QString Util::createSharedCode(const QString& code, bool tiny) const
 {
-    /* Waiting for CROS fix...
+    if(!tiny) {
+        return "https://patrickelectric.work/qmlonline/?code=" + QString(QUrl::toPercentEncoding(code));
+    }
+
     auto url = QString("https://patrickelectric.work/qmlonline/?code=") + code;
     for(const auto item : _urlEncodeMap.toStdMap()) {
         url.replace(item.first, item.second);
     }
     return url;
-    */
-   return "https://patrickelectric.work/qmlonline/?code=" + QString(QUrl::toPercentEncoding(code));
 }
 
 QObject* Util::qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine)

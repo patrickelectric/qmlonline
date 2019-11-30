@@ -28,7 +28,7 @@ public:
      * @param code
      * @return QString
      */
-    Q_INVOKABLE QString createSharedCode(const QString& code) const;
+    Q_INVOKABLE QString createSharedCode(const QString& code, bool tiny = false) const;
 
     /**
      * @brief Return Util pointer

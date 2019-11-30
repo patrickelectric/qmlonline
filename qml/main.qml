@@ -28,7 +28,7 @@ ApplicationWindow {
                 text: "Share"
                 onTriggered: {
                     // Waiting for CROS fix...
-                    //request(Util.createSharedCode(codeEdit.text))
+                    request(Util.createSharedCode(codeEdit.text, true))
                     popup.show(Util.createSharedCode(codeEdit.text))
 
                 }
@@ -43,7 +43,8 @@ ApplicationWindow {
         request.send();
         request.onload = function() {
             if (request.status == 200) {
-                popup.show(`${request.response}`)
+                print(`Get OK ${request.response}`)
+                //popup.show(`${request.response}`)
             } else {
                 print(`GET Error ${request.status}: ${request.statusText}`);
             }
