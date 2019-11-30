@@ -27,10 +27,9 @@ ApplicationWindow {
             MenuItem {
                 text: "Share"
                 onTriggered: {
-                    // Waiting for CROS fix...
                     request(Util.createSharedCode(codeEdit.text, true))
-                    popup.show(Util.createSharedCode(codeEdit.text))
-
+                    // Old method with raw links
+                    //popup.show(Util.createSharedCode(codeEdit.text))
                 }
             }
         }
@@ -38,7 +37,8 @@ ApplicationWindow {
 
     function request(url) {
         var request = new XMLHttpRequest();
-        print("https://tinyurl.com/api-create.php\?url\=" + url)
+        Qt.openUrlExternally("https://tinyurl.com/api-create.php\?url\=" + url)
+
         request.open('GET', "https://tinyurl.com/api-create.php\?url\=" + url);
         request.send();
         request.onload = function() {
