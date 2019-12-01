@@ -6,7 +6,8 @@
         <file alias="Canvas Advanced.qml">qml/examples/canvasadvanced.qml</file>
         <file alias="Repeater.qml">qml/examples/repeater.qml</file>
         <file alias="Rotation Animator.qml">qml/examples/rotationanimator.qml</file>
-        <file alias="ShaderEffect.qml">qml/examples/shadereffect.qml</file>
+        <file alias="ShaderEffect Circle.qml">qml/examples/shadereffect.qml</file>
+        <file alias="ShaderEffect Pixelated.qml">qml/examples/shadereffect-pixelated.qml</file>
         <file alias="TapHandler.qml">qml/examples/taphandler.qml</file>
     </qresource>
 </RCC>
