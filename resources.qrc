@@ -7,6 +7,7 @@
         <file alias="AnchorChanges.qml">qml/examples/anchorchanges.qml</file>
         <file alias="AnimatedImage.qml">qml/examples/animatedimage.qml</file>
         <file alias="AnimatedSprite.qml">qml/examples/animatedsprite.qml</file>
+        <file alias="Binding.qml">qml/examples/binding.qml</file>
         <file alias="Canvas Advanced.qml">qml/examples/canvasadvanced.qml</file>
         <file alias="Repeater.qml">qml/examples/repeater.qml</file>
         <file alias="Rotation Animator.qml">qml/examples/rotationanimator.qml</file>
