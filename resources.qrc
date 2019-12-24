@@ -11,6 +11,7 @@
         <file alias="Blend.qml">qml/examples/blend.qml</file>
         <file alias="BrightnessControl.qml">qml/examples/brightnesscontrast.qml</file>
         <file alias="Canvas Advanced.qml">qml/examples/canvasadvanced.qml</file>
+        <file alias="Json as model.qml">qml/examples/jsonmodel.qml</file>
         <file alias="Repeater.qml">qml/examples/repeater.qml</file>
         <file alias="Rotation Animator.qml">qml/examples/rotationanimator.qml</file>
         <file alias="SequentialAnimation.qml">qml/examples/sequentialanimation.qml</file>
