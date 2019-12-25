@@ -26,7 +26,7 @@ script:
     git config --global user.email "patrickelectric@gmail.com";
     echo "Build project";
     mkdir build;
-    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_latest;
+    docker run --rm -v $PWD:/project/source -v $PWD/build:/project/build maukalinow/qtwasm_builder:5.13_60befd750829fe5a61b07256f0dc667ea1bd0f2f;
     rm -rf build/{Makefile,*.o,*.cpp};
     git checkout --track origin/gh-pages;
     mv build/* .;
