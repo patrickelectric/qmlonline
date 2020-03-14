@@ -137,6 +137,8 @@ Rectangle {
 
 Util::~Util() {}
 
+#ifdef EMSCRIPTEN
+
 #include <emscripten/bind.h>
 
 EMSCRIPTEN_BINDINGS(util) {
@@ -145,3 +147,5 @@ EMSCRIPTEN_BINDINGS(util) {
         .function("setCode", &Util::setCodeEMS);
     emscripten::function("self", &Util::self, emscripten::allow_raw_pointers());
 }
+
+#endif

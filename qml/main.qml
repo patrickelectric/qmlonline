@@ -106,5 +106,7 @@ ApplicationWindow {
             }
             userItem = Qt.createQmlObject(textComponent, userParentItem, "userItem")
         }
+
+        Component.onCompleted: userParentItem.create(Util.code)
     }
 }
