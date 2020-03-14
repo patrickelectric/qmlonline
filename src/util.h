@@ -14,6 +14,8 @@ class QQuickView;
 class Util : public QObject {
     Q_OBJECT
 
+    Q_PROPERTY(QString code READ code NOTIFY codeChanged)
+
 public:
     /**
      * @brief Provide the code shared around web apps
@@ -29,6 +31,34 @@ public:
      * @return QString
      */
     Q_INVOKABLE QString createSharedCode(const QString& code, bool tiny = false) const;
+
+    /**
+     * @brief Return the code
+     *
+     * @return QString
+     */
+    QString code() const;
+
+    /**
+     * @brief Get code via std::string
+     *
+     * @return QString
+     */
+    std::string codeEMS() const;
+
+    /**
+     * @brief Set the code
+     *
+     * @param code
+     */
+    void setCode(const QString& code);
+
+    /**
+     * @brief Set the code via std::string
+     *
+     * @param code
+     */
+    void setCodeEMS(const std::string& code);
 
     /**
      * @brief Return Util pointer
@@ -47,6 +77,9 @@ public:
      */
     static QObject* qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine);
 
+signals:
+    void codeChanged();
+
 private:
     Q_DISABLE_COPY(Util)
     /**
@@ -54,6 +87,8 @@ private:
      *
      */
     Util() = default;
+
+    QString _code;
 
     // QUrl can't do the necessary decode
     QMap<QString, QString> _urlEncodeMap {
