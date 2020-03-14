@@ -11,6 +11,7 @@ ApplicationWindow {
     title: "qmlonline"
     visible: true
 
+    /*
     menuBar: MenuBar {
         Menu {
             title: "Examples"
@@ -87,7 +88,7 @@ ApplicationWindow {
         function requestDefault() {
             return examples.getTextFromExample("Rotation Animator")
         }
-    }
+    }*/
 
     Connections {
         target: Util
