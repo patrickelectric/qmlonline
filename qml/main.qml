@@ -81,7 +81,8 @@ ApplicationWindow {
     Examples {
         id: examples
         Component.onCompleted: {
-            userParentItem.create(requestDefault())
+            //userParentItem.create(requestDefault())
+            userParentItem.create(Util.code)
         }
         function requestDefault() {
             return examples.getTextFromExample("Rotation Animator")
