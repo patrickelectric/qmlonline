@@ -40,11 +40,25 @@ public:
     QString code() const;
 
     /**
+     * @brief Get code via std::string
+     *
+     * @return QString
+     */
+    std::string codeEMS() const;
+
+    /**
      * @brief Set the code
      *
      * @param code
      */
     void setCode(const QString& code);
+
+    /**
+     * @brief Set the code via std::string
+     *
+     * @param code
+     */
+    void setCodeEMS(const std::string& code);
 
     /**
      * @brief Return Util pointer

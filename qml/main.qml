@@ -89,6 +89,11 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: Util
+        onCodeChanged: userParentItem.create(Util.code)
+    }
+
     Item {
         id: userParentItem
         anchors.fill: parent

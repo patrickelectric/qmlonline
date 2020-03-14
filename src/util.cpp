@@ -49,12 +49,22 @@ QString Util::code() const
     return _code;
 }
 
+std::string Util::codeEMS() const
+{
+    return _code.toStdString();
+}
+
 void Util::setCode(const QString& code)
 {
     if (_code != code) {
         _code = code;
         emit codeChanged();
     }
+}
+
+void Util::setCodeEMS(const std::string& code)
+{
+    setCode(QString::fromStdString(code));
 }
 
 QObject* Util::qmlSingletonRegister(QQmlEngine* engine, QJSEngine* scriptEngine)
@@ -126,3 +136,12 @@ Rectangle {
 }
 
 Util::~Util() {}
+
+#include <emscripten/bind.h>
+
+EMSCRIPTEN_BINDINGS(util) {
+    emscripten::class_<Util>("Util")
+        .function("code", &Util::codeEMS)
+        .function("setCode", &Util::setCodeEMS);
+    emscripten::function("self", &Util::self, emscripten::allow_raw_pointers());
+}
