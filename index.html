@@ -1,99 +1,120 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>qmlonline</title>
     <style>
-      html, body { padding: 0; margin : 0; overflow:hidden; height: 100% }
-      /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas { border: 0px none; background-color: white; height:100%; width:100%;  }
-      /* The contenteditable property is set to true for the canvas in order to support
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            height: 100%
+        }
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+
+        canvas {
+            border: 0px none;
+            background-color: white;
+            height: 100%;
+            width: 100%;
+        }
+        /* The contenteditable property is set to true for the canvas in order to support
          clipboard events. Hide the resulting focus frame and set the cursor back to
          the default cursor. */
-      canvas { outline: 0px solid transparent; caret-color: transparent; cursor:default }
 
-      .splitter {
-          width: 100%;
-          height: 100%;
-          display: flex;
-      }
+        canvas {
+            outline: 0px solid transparent;
+            caret-color: transparent;
+            cursor: default
+        }
 
-      #separator {
-          cursor: col-resize;
-          background-color: #aaa;
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
-          background-repeat: no-repeat;
-          background-position: center;
-          width: 10px;
-          height: 100%;
+        .splitter {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
 
-      /* prevent browser's built-in drag from interfering */
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-      }
+        #separator {
+            cursor: col-resize;
+            background-color: #aaa;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 10px;
+            height: 100%;
+            /* prevent browser's built-in drag from interfering */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-      #editor {
-          width: 50%;
-          height: 100%;
-          min-width: 10px;
-      }
+        #editor {
+            width: 50%;
+            height: 100%;
+            min-width: 10px;
+        }
 
-      #second {
-          background-color: #eee;
-          width: 50%;
-          height: 100%;
-          min-width: 10px;
-      }
+        #second {
+            background-color: #eee;
+            width: 50%;
+            height: 100%;
+            min-width: 10px;
+        }
+        /* Dropdown Button */
 
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+        /* The container <div> - needed to position the dropdown content */
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* Dropdown Content (Hidden by Default) */
 
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+        /* Links inside the dropdown */
 
-      /* Dropdown Button */
-    .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        /* Change color of dropdown links on hover */
 
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-    position: relative;
-    display: inline-block;
-    }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        /* Show the dropdown menu on hover */
 
-    /* Dropdown Content (Hidden by Default) */
-    .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        /* Change the background color of the dropdown button when the dropdown content is shown */
 
-    /* Links inside the dropdown */
-    .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #ddd;}
-
-    /* Show the dropdown menu on hover */
-    .dropdown:hover .dropdown-content {display: block;}
-
-    /* Change the background color of the dropdown button when the dropdown content is shown */
-    .dropdown:hover .dropbtn {background-color: #3e8e41;}
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
     </style>
-  </head>
-  <body onload="init()">
+</head>
+
+<body onload="init()">
     <!--button onclick="Module.__Z5sayHiv()">Click me</button>
     <div class="dropdown">
         <button class="dropbtn">Dropdown</button>
@@ -105,24 +126,21 @@
       </div-->
 
     <div class="splitter">
-        <div id="editor">function foo(items) {
-          var x = "All this is syntax highlighted";
-          return x;
-        }</div>
-      <div id="separator"></div>
-      <div id="second" >
-        <figure style="overflow:visible;" id="qtspinner">
-          <center style="margin-top:1.5em; line-height:150%">
-            <img src="qtlogo.svg"; width=320; height=200; style="display:block"> </img>
-            <strong>Qt for WebAssembly: qmlonline</strong>
-            <div id="qtstatus"></div>
-            <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
-          </center>
-        </figure>
-        <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
-      </div>
+        <div id="editor">function foo(items) { var x = "All this is syntax highlighted"; return x; }
+        </div>
+        <div id="separator"></div>
+        <div id="second">
+            <figure style="overflow:visible;" id="qtspinner">
+                <center style="margin-top:1.5em; line-height:150%">
+                    <img src="qtlogo.svg" ; width=320; height=200; style="display:block"> </img>
+                    <strong>Qt for WebAssembly: qmlonline</strong>
+                    <div id="qtstatus"></div>
+                    <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
+                </center>
+            </figure>
+            <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
+        </div>
     </div>
-
 
     <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
@@ -131,95 +149,99 @@
         editor.session.setMode("ace/mode/rust");
         editor.commands.addCommand({
             name: 'save',
-            bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
+            bindKey: {
+                win: "Ctrl-S",
+                "mac": "Cmd-S"
+            },
             exec: function(editor) {
                 Module.self().setCode(editor.session.getValue())
             }
         })
 
         function init() {
-          var spinner = document.querySelector('#qtspinner');
-          var canvas = document.querySelector('#qtcanvas');
-          var status = document.querySelector('#qtstatus')
+            var spinner = document.querySelector('#qtspinner');
+            var canvas = document.querySelector('#qtcanvas');
+            var status = document.querySelector('#qtstatus')
 
-          var qtLoader = QtLoader({
-              canvasElements : [canvas],
-              showLoader: function(loaderStatus) {
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-                  status.innerHTML = loaderStatus + "...";
-              },
-              showError: function(errorText) {
-                  status.innerHTML = errorText;
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-              },
-              showExit: function() {
-                  status.innerHTML = "Application exit";
-                  if (qtLoader.exitCode !== undefined)
-                      status.innerHTML += " with code " + qtLoader.exitCode;
-                  if (qtLoader.exitText !== undefined)
-                      status.innerHTML += " (" + qtLoader.exitText + ")";
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-              },
-              showCanvas: function() {
-                  spinner.style.display = 'none';
-                  canvas.style.display = 'block';
-              },
-          });
-          qtLoader.loadEmscriptenModule("qmlonline");
-          console.log(qtLoader);
-          console.log(Module);
-          Module.__Z5sayHiv();
-      }
-
-      // function is used for dragging and moving
-      function dragElement( element, direction)
-      {
-          var   md; // remember mouse down info
-          const first  = document.getElementById("editor");
-          const second = document.getElementById("second");
-
-          element.onmousedown = onMouseDown;
-
-          function onMouseDown( e )
-          {
-        //console.log("mouse down: " + e.clientX);
-        md = {e,
-              offsetLeft:  element.offsetLeft,
-              offsetTop:   element.offsetTop,
-              firstWidth:  first.offsetWidth,
-              secondWidth: second.offsetWidth};
-        document.onmousemove = onMouseMove;
-        document.onmouseup = () => {
-            //console.log("mouse up");
-            document.onmousemove = document.onmouseup = null;
+            var qtLoader = QtLoader({
+                canvasElements: [canvas],
+                showLoader: function(loaderStatus) {
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                    status.innerHTML = loaderStatus + "...";
+                },
+                showError: function(errorText) {
+                    status.innerHTML = errorText;
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                },
+                showExit: function() {
+                    status.innerHTML = "Application exit";
+                    if (qtLoader.exitCode !== undefined)
+                        status.innerHTML += " with code " + qtLoader.exitCode;
+                    if (qtLoader.exitText !== undefined)
+                        status.innerHTML += " (" + qtLoader.exitText + ")";
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                },
+                showCanvas: function() {
+                    spinner.style.display = 'none';
+                    canvas.style.display = 'block';
+                },
+            });
+            qtLoader.loadEmscriptenModule("qmlonline");
+            console.log(qtLoader);
+            console.log(Module);
+            Module.__Z5sayHiv();
         }
-          }
 
-          function onMouseMove( e )
-          {
-        //console.log("mouse move: " + e.clientX);
-        var delta = {x: e.clientX - md.e.x,
-              y: e.clientY - md.e.y};
+        // function is used for dragging and moving
+        function dragElement(element, direction) {
+            var md; // remember mouse down info
+            const first = document.getElementById("editor");
+            const second = document.getElementById("second");
 
-        if (direction === "H" ) // Horizontal
-        {
-            // prevent negative-sized elements
-            delta.x = Math.min(Math.max(delta.x, -md.firstWidth),
-                  md.secondWidth);
+            element.onmousedown = onMouseDown;
 
-            element.style.left = md.offsetLeft + delta.x + "px";
-            first.style.width = (md.firstWidth + delta.x) + "px";
-            second.style.width = (md.secondWidth - delta.x) + "px";
+            function onMouseDown(e) {
+                //console.log("mouse down: " + e.clientX);
+                md = {
+                    e,
+                    offsetLeft: element.offsetLeft,
+                        offsetTop: element.offsetTop,
+                        firstWidth: first.offsetWidth,
+                        secondWidth: second.offsetWidth
+                };
+                document.onmousemove = onMouseMove;
+                document.onmouseup = () => {
+                    //console.log("mouse up");
+                    document.onmousemove = document.onmouseup = null;
+                }
+            }
+
+            function onMouseMove(e) {
+                //console.log("mouse move: " + e.clientX);
+                var delta = {
+                    x: e.clientX - md.e.x,
+                    y: e.clientY - md.e.y
+                };
+
+                if (direction === "H") // Horizontal
+                {
+                    // prevent negative-sized elements
+                    delta.x = Math.min(Math.max(delta.x, -md.firstWidth),
+                        md.secondWidth);
+
+                    element.style.left = md.offsetLeft + delta.x + "px";
+                    first.style.width = (md.firstWidth + delta.x) + "px";
+                    second.style.width = (md.secondWidth - delta.x) + "px";
+                }
+            }
         }
-          }
-      }
 
-
-      dragElement( document.getElementById("separator"), "H" );
+        dragElement(document.getElementById("separator"), "H");
     </script>
     <script type="text/javascript" src="qtloader.js"></script>
-  </body>
+</body>
+
 </html>
