@@ -11,6 +11,7 @@ ApplicationWindow {
     title: "qmlonline"
     visible: true
 
+    /*
     menuBar: MenuBar {
         Menu {
             title: "Examples"
@@ -18,7 +19,7 @@ ApplicationWindow {
                 model: examples.examples
                 MenuItem {
                     text: modelData.name
-                    onTriggered: codeEdit.text = examples.getTextFromExample(text)
+                    onTriggered: userParentItem.create(examples.getTextFromExample(text))
                 }
             }
         }
@@ -81,120 +82,31 @@ ApplicationWindow {
     Examples {
         id: examples
         Component.onCompleted: {
-            if(codeEdit.text == "") {
-                codeEdit.text = requestDefault()
-            }
+            //userParentItem.create(requestDefault())
+            userParentItem.create(Util.code)
         }
         function requestDefault() {
             return examples.getTextFromExample("Rotation Animator")
         }
+    }*/
+
+    Connections {
+        target: Util
+        onCodeChanged: userParentItem.create(Util.code)
     }
 
-    SplitView {
-        // Anchors and Layout are not working
-        width: parent.width
-        height: parent.height
+    Item {
+        id: userParentItem
+        anchors.fill: parent
+        property var userItem: null
 
-        orientation: Qt.Horizontal
-
-        ColumnLayout {
-            id: pathLayout
-            Layout.fillHeight: true
-            Layout.minimumWidth: view.contentWidth
-            ScrollView {
-                id: view
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.minimumWidth: codeEdit.contentWidth
-                clip: true
-
-                RowLayout {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    ColumnLayout {
-                        spacing: 0
-                        Repeater {
-                            model: codeEdit.lineCount
-                            Layout.fillHeight: true
-                            anchors.topMargin: codeEdit.topPadding
-                            delegate: Text {
-                                Layout.fillWidth: true
-                                horizontalAlignment: Text.AlignRight
-                                text: index + 1
-                                color: 'gray'
-                                font.bold: codeEdit.cursorLineNumber - 1 == index
-                                anchors.margins: 0
-                            }
-                        }
-                    }
-                    TextArea {
-                        id: codeEdit
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        leftPadding: 4
-                        selectByMouse: true
-                        text: Util.sharedCode()
-                        property var cursorLineNumber: 0
-                        onTextChanged: updateItem()
-                        onCursorPositionChanged: {
-                            codeEdit.cursorLineNumber = codeEdit.text.substr(0, cursorPosition).split("\n").length
-                        }
-
-                        function updateItem() {
-                            userParentItem.create(codeEdit.text)
-                        }
-
-                        Keys.onPressed: {
-                            if (event.key == Qt.Key_Escape) {
-                                codeEdit.focus = false
-                                if(userParentItem.userItem) {
-                                    userParentItem.userItem.focus = true
-                                }
-                            } else if (event.key == Qt.Key_Tab) {
-                                // Tabs are an unholy thing
-                                codeEdit.insert(cursorPosition, "    ");
-                                event.accepted = true;
-                            }
-                        }
-
-                        Rectangle {
-                            color: "yellow"
-                            width: codeEdit.width + codeEdit.x
-                            height: codeEdit.cursorRectangle.height
-                            visible: codeEdit.focus
-                            opacity: 0.2
-                            z: codeEdit.z -1
-                            y: codeEdit.cursorRectangle.y
-                            x: - codeEdit.x
-                        }
-                    }
-
-                    SyntaxHighlighter {
-                        id: syntaxHighlighter
-                        textDocument: codeEdit.textDocument
-                    }
-                }
+        function create(textComponent) {
+            if(userItem) {
+                userItem.destroy()
             }
-            Button {
-                id: codeEditButton
-                Layout.fillWidth: true
-                text: "Update!"
-                onClicked: codeEdit.updateItem()
-            }
+            userItem = Qt.createQmlObject(textComponent, userParentItem, "userItem")
         }
 
-        Item {
-            id: userParentItem
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            property var userItem: null
-
-            function create(textComponent) {
-                if(userItem) {
-                    userItem.destroy()
-                }
-                userItem = Qt.createQmlObject(textComponent, userParentItem, "userItem")
-            }
-        }
+        Component.onCompleted: userParentItem.create(Util.code)
     }
 }

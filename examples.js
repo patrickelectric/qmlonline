@@ -1,0 +1,64 @@
+function getExamples() {
+    return [
+        {
+            name: "Anchor Animation",
+            file: "anchoranimation.qml"
+        },
+        {
+            name: "Anchor Changes",
+            file: "anchorchanges.qml"
+        },
+        {
+            name: "Animeted Image",
+            file: "animatedimage.qml"
+        },
+        {
+            name: "Animeted Sprite",
+            file: "animatedsprite.qml"
+        },
+        {
+            name: "Binding",
+            file: "binding.qml"
+        },
+        {
+            name: "Blend Image",
+            file: "blend.qml"
+        },
+        {
+            name: "Brightness and Contrast",
+            file: "brightnesscontrast.qml"
+        },
+        {
+            name: "Canvas Advanced",
+            file: "canvasadvanced.qml"
+        },
+        {
+            name: "Json Model",
+            file: "jsonmodel.qml"
+        },
+        {
+            name: "Repeater",
+            file: "repeater.qml"
+        },
+        {
+            name: "Rotation Animation",
+            file: "rotationanimator.qml"
+        },
+        {
+            name: "Sequential Animation",
+            file: "sequentialanimation.qml"
+        },
+        {
+            name: "Shader Effect Pixelated",
+            file: "shadereffect-pixelated.qml"
+        },
+        {
+            name: "Shader Effect",
+            file: "shadereffect.qml"
+        },
+        {
+            name: "Taphandler",
+            file: "taphandler.qml"
+        },
+    ]
+}
