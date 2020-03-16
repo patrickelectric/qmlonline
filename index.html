@@ -126,8 +126,7 @@
       </div-->
 
     <div class="splitter">
-        <div id="editor">function foo(items) { var x = "All this is syntax highlighted"; return x; }
-        </div>
+        <div id="editor"></div>
         <div id="separator"></div>
         <div id="second">
             <figure style="overflow:visible;" id="qtspinner">
@@ -144,6 +143,7 @@
 
     <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
+        var qtLoader;
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/dracula");
         editor.session.setMode("ace/mode/rust");
@@ -183,16 +183,26 @@
                         status.innerHTML += " (" + qtLoader.exitText + ")";
                     spinner.style.display = 'block';
                     canvas.style.display = 'none';
+                    console.log("exit", qtLoader.exitCode)
                 },
                 showCanvas: function() {
                     spinner.style.display = 'none';
                     canvas.style.display = 'block';
+                    console.log("what", Module.self)
+                    Module.instantiateWasm = function(imports, successCallback) {
+                        console.log('instantiateWasm: instantiating asynchronously');
+                    };
+                    //document.getElementById("editor").innerHTML = Module.self().code();
                 },
             });
             qtLoader.loadEmscriptenModule("qmlonline");
-            console.log(qtLoader);
-            console.log(Module);
-            Module.__Z5sayHiv();
+            console.log("qtloader", qtLoader);
+            console.log("module", Module);
+            console.log("module", Module.Util());
+
+            Module.instantiateWasm = function(imports, successCallback) {
+                console.log('instantiateWasm: instantiating asynchronously');
+            };
         }
 
         // function is used for dragging and moving
@@ -200,6 +210,7 @@
             var md; // remember mouse down info
             const first = document.getElementById("editor");
             const second = document.getElementById("second");
+            const qtcanvas = document.getElementById("qtcanvas");
 
             element.onmousedown = onMouseDown;
 
@@ -234,7 +245,18 @@
 
                     element.style.left = md.offsetLeft + delta.x + "px";
                     first.style.width = (md.firstWidth + delta.x) + "px";
+                    //second.style.width = (md.secondWidth - delta.x) + "px";
                     second.style.width = (md.secondWidth - delta.x) + "px";
+                    qtcanvas.style.setProperty("width", second.style.width + "px", "important");
+                    //qtcanvas.style.setProperty("height", h + "px", "important")
+                    //qtcanvas.style.width = "100%";
+                    //qtcanvas.style.height = "100%";
+                    //qtcanvas.width = (md.secondWidth - delta.x) * window.devicePixelRatio;
+                    //Browser.updateCanvasDimensions(qtcanvas);
+                    //console.log(qtcanvas.width, second.style.width, first.style.width, (md.secondWidth - delta.x)/(md.firstWidth + md.secondWidth))
+                    //qtLoader.resizeCanvasElement(qtcanvas)
+                    //Browser.setFullscreenCanvasSize()
+                    //Browser.updateCanvasDimensions(Module["canvas"])
                 }
             }
         }
