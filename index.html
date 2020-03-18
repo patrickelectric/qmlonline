@@ -198,11 +198,22 @@
             qtLoader.loadEmscriptenModule("qmlonline");
             console.log("qtloader", qtLoader);
             console.log("module", Module);
-            console.log("module", Module.Util());
+            //console.log("module", Module.Util());
 
             Module.instantiateWasm = function(imports, successCallback) {
                 console.log('instantiateWasm: instantiating asynchronously');
             };
+
+            // TODO: Find a better way to set the initial code and wait for the webassembly to start
+            var intervalID = setInterval(
+                function() {
+                    console.log("Waiting for webassembly to load...")
+                    if (Module.self !== undefined) {
+                        clearInterval(intervalID);
+                        editor.session.setValue(Module.self().code());
+                    }
+                },
+            100);
         }
 
         // function is used for dragging and moving
