@@ -79,8 +79,7 @@ Util* Util::self()
 {
     static Util* self = new Util();
     self->setCode(
-R"(
-import QtQuick 2.0
+R"(import QtQuick 2.0
 
 Rectangle {
     id: root
