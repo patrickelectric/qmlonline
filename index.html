@@ -94,7 +94,7 @@
             color: black;
             padding: 12px 16px;
             text-decoration: none;
-            display: block;
+            display: block;;
         }
         /* Change color of dropdown links on hover */
 
@@ -105,24 +105,42 @@
 
         .dropdown:hover .dropdown-content {
             display: block;
+            position: absolute;
+            z-index: 100
         }
         /* Change the background color of the dropdown button when the dropdown content is shown */
 
         .dropdown:hover .dropbtn {
             background-color: #3e8e41;
         }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+        }
     </style>
 </head>
 
 <body onload="init()">
-    <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
-        <div class="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
+    <div class="row">
+        <div class="dropdown">
+            <button class="dropbtn">Dropdown</button>
+            <div id="dropdown-content" class="dropdown-content">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+            </div>
         </div>
-      </div>
+
+        <form id="myForm">
+            <select id="select-example">
+            <option>Choose a number</option>
+            </select>
+        </form>
+    </div>
 
     <div class="splitter">
         <div id="editor"></div>
@@ -142,7 +160,15 @@
 
     <script src="/examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
-        console.log(getExamples())
+        const examples = getExamples();
+        let select = document.getElementById("dropdown-content");
+        for(let i in examples) {
+            const opt = examples[i].name;
+            let element = document.createElement("a");
+            element.textContent = opt;
+            element.value = opt;
+            select.appendChild(element);
+        }
     </script>
 
     <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
