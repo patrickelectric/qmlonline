@@ -128,11 +128,7 @@
     <div class="row">
         <div class="dropdown">
             <button class="dropbtn">Dropdown</button>
-            <div id="dropdown-content" class="dropdown-content">
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-            </div>
+            <div id="dropdown-content" class="dropdown-content"></div>
         </div>
 
         <form id="myForm">
@@ -163,11 +159,27 @@
         const examples = getExamples();
         let select = document.getElementById("dropdown-content");
         for(let i in examples) {
-            const opt = examples[i].name;
+            const opt = examples[i];
             let element = document.createElement("a");
-            element.textContent = opt;
-            element.value = opt;
+            element.textContent = opt.name;
+            element.value = opt.name;
+            element.href = "javascript:openExample('" + opt.file + "')";
+            element.alt = opt.file;
             select.appendChild(element);
+        }
+
+        function openExample(file) {
+            let content = loadFile(file);
+            editor.session.setValue(content);
+            Module.self().setCode(content)
+        }
+
+        function loadFile(filePath) {
+            //TODO: use https://xhr.spec.whatwg.org/
+            let request = new XMLHttpRequest();
+            request.open("GET", "qml/examples/"+ filePath, false);
+            request.send();
+            return request.status === 200 ? request.responseText : "";
         }
     </script>
 
