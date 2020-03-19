@@ -188,6 +188,7 @@
         var qtLoader;
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/dracula");
+        editor.session.setMode("ace/mode/rust");
         editor.setOption("showInvisibles", true)
         editor.commands.addCommand({
             name: 'save',
