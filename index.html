@@ -132,6 +132,10 @@
             <div id="dropdown-content" class="dropdown-content"></div>
         </div>
 
+        <div class="dropdown">
+            <button onclick="share()" class="dropbtn">Share</button>
+        </div>
+
         <form id="myForm">
             <select id="select-example">
             <option>Choose a number</option>
@@ -185,6 +189,8 @@
     </script>
 
     <script src="/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="qtloader.js"></script>
+    <script type="text/javascript" src="lz-string/libs/lz-string.js"></script>
     <script type='text/javascript'>
         var qtLoader;
         var editor = ace.edit("editor");
@@ -291,8 +297,17 @@
         }
 
         dragElement(document.getElementById("separator"));
+
+        function share() {
+            var string = editor.session.getValue();
+            var compressed = LZString.compressToEncodedURIComponent(string);
+            //alert(compressed)
+            console.log(compressed.length/string.length)
+            alert(window.location.href)
+            open("https://tinyurl.com/api-create.php\?url\=" + window.location.href + "?code=" + encodeURI(compressed))
+            string = LZString.decompressFromEncodedURIComponent(compressed);
+        }
     </script>
-    <script type="text/javascript" src="qtloader.js"></script>
 </body>
 
 </html>
