@@ -18,21 +18,6 @@ class Util : public QObject {
 
 public:
     /**
-     * @brief Provide the code shared around web apps
-     *
-     * @return QString
-     */
-    Q_INVOKABLE QString sharedCode() const;
-
-    /**
-     * @brief Create a url that provides the code
-     *
-     * @param code
-     * @return QString
-     */
-    Q_INVOKABLE QString createSharedCode(const QString& code, bool tiny = false) const;
-
-    /**
      * @brief Return the code
      *
      * @return QString
@@ -89,27 +74,4 @@ private:
     Util() = default;
 
     QString _code;
-
-    // QUrl can't do the necessary decode
-    QMap<QString, QString> _urlEncodeMap {
-        {"\t","%09"},
-        {"\n","%0A"},
-        {"\r","%0D"},
-        {" ","%20"},
-        {"!","%21"},
-        {"\"","%22"},
-        {"#","%23"},
-        {"$","%24"},
-        {"%","%25"},
-        {"&","%26"},
-        {"'","%27"},
-        {"(","%28"},
-        {")","%29"},
-        {"+","%2B"},
-        {",","%2C"},
-        {"-","%2D"},
-        {"/","%2F"},
-        {":","%3A"},
-        {";","%3B"},
-    };
 };
