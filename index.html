@@ -150,10 +150,40 @@
             float: right !important;
             cursor: pointer;
         }
+
+        #overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        #overlay-text {
+            color: #fff;
+            display: block;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            top: 30%;
+            position: absolute;
+            line-height: 23pt;
+        }
     </style>
 </head>
 
+<div id="overlay" onclick="overlayOff()">
+    <span id="overlay-text">
+        Magic tips:<br>
+        Control+S: To update render while using text editor<br>
+        There is no more tips!
+    </span>
+</div>
+
 <body onload="init()">
+
     <div class="header-row">
         <span class="header-brand-1">QML</span>
         <span class="header-brand-2">Online</span>
@@ -366,6 +396,11 @@
             }
 
         }
+
+        function overlayOff() {
+            document.getElementById("overlay").style.display = "none";
+        }
+        document.getElementById("overlay").style.display = "block";
     </script>
 </body>
 
