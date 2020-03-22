@@ -1,65 +1,372 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>qmlonline</title>
     <style>
-      html, body { padding: 0; margin : 0; overflow:hidden; height: 100% }
-      /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-      canvas { border: 0px none; background-color: white; height:100%; width:100%;  }
-      /* The contenteditable property is set to true for the canvas in order to support
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            height: 100%
+        }
+        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+        canvas {
+            border: 0px none;
+            background-color: white;
+            height: 100%;
+            width: 100%;
+        }
+        /* The content editable property is set to true for the canvas in order to support
          clipboard events. Hide the resulting focus frame and set the cursor back to
          the default cursor. */
-      canvas { outline: 0px solid transparent; caret-color: transparent; cursor:default }
+        canvas {
+            outline: 0px solid transparent;
+            caret-color: transparent;
+            cursor: default
+        }
+
+        .header-row {
+            background: #2f2f32;
+        }
+
+        .splitter {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        #separator {
+            cursor: col-resize;
+            background-color: #aaa;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 10px;
+            height: 100%;
+            /* prevent browser's built-in drag from interfering */
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #editor-div {
+            width: 50%;
+            height: 100%;
+            min-width: 10px;
+        }
+
+        #qml-div {
+            background-color: #eee;
+            width: 50%;
+            height: 100%;
+            min-width: 10px;
+        }
+
+        /* Dropdown Button */
+        .dropdown-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px;
+            font-size: 16px;
+            border: none;
+            font-family: sans-serif;
+            margin-top: 0.1em;
+            margin-bottom: 0.1em;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+            position: absolute;
+            z-index: 100
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropdown-button {
+            background-color: #3e8e41;
+        }
+
+        .header-brand-1 {
+            color: #fff;
+            font-weight: 400;
+            line-height: 1.15em;
+            letter-spacing: -1px;
+            margin-left: 0.2em;
+            margin-right: 0.1em;
+            font-family: sans-serif;
+        }
+
+        .header-brand-2 {
+            color: #fff;
+            font-style: italic;
+            font-family: sans-serif;
+            margin-right: 0.2em;
+        }
+
+        .github-icon {
+            color: #fff;
+            height: 1.5em;
+        }
+
+        .github-button {
+            align-items: center;
+            color: #fff;
+            height: 1.5em;
+            margin-top: 0.2em;
+            margin-right: 0.4em;
+            float: right !important;
+            cursor: pointer;
+        }
     </style>
-  </head>
-  <body onload="init()">
-    <figure style="overflow:visible;" id="qtspinner">
-      <center style="margin-top:1.5em; line-height:150%">
-        <img src="qtlogo.svg"; width=320; height=200; style="display:block"> </img>
-        <strong>Qt for WebAssembly: qmlonline</strong>
-        <div id="qtstatus"></div>
-        <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
-      </center>
-    </figure>
-    <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
+</head>
 
+<body onload="init()">
+    <div class="header-row">
+        <span class="header-brand-1">QML</span>
+        <span class="header-brand-2">Online</span>
+
+        <div class="dropdown">
+            <button class="dropdown-button">Examples</button>
+            <div id="dropdown-content" class="dropdown-content"></div>
+        </div>
+
+        <div class="dropdown" style="cursor:pointer">
+            <button onclick="share()" class="dropdown-button">Share</button>
+        </div>
+
+        <div class="github-button" onclick="window.open('https://github.com/patrickelectric/qmlonline');">
+            <svg data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg="" class="github-icon"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+        </div>
+    </div>
+
+    <div class="splitter">
+        <div id="editor-div"></div>
+        <div id="separator"></div>
+        <div id="qml-div">
+            <figure style="overflow:visible;" id="qtspinner">
+                <center style="margin-top:1.5em; line-height:150%">
+                    <img src="qtlogo.svg" ; width=320; height=200; style="display:block"> </img>
+                    <strong>Qt for WebAssembly: qmlonline</strong>
+                    <div id="qtstatus"></div>
+                    <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
+                </center>
+            </figure>
+
+            <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
+        </div>
+    </div>
+
+    <script src="examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
-        function init() {
-          var spinner = document.querySelector('#qtspinner');
-          var canvas = document.querySelector('#qtcanvas');
-          var status = document.querySelector('#qtstatus')
+        const examples = getExamples();
+        let select = document.getElementById("dropdown-content");
+        for(let i in examples) {
+            const opt = examples[i];
+            let element = document.createElement("a");
+            element.textContent = opt.name;
+            element.value = opt.name;
+            element.href = "javascript:openExample('" + opt.file + "')";
+            element.alt = opt.file;
+            select.appendChild(element);
+        }
 
-          var qtLoader = QtLoader({
-              canvasElements : [canvas],
-              showLoader: function(loaderStatus) {
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-                  status.innerHTML = loaderStatus + "...";
-              },
-              showError: function(errorText) {
-                  status.innerHTML = errorText;
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-              },
-              showExit: function() {
-                  status.innerHTML = "Application exit";
-                  if (qtLoader.exitCode !== undefined)
-                      status.innerHTML += " with code " + qtLoader.exitCode;
-                  if (qtLoader.exitText !== undefined)
-                      status.innerHTML += " (" + qtLoader.exitText + ")";
-                  spinner.style.display = 'block';
-                  canvas.style.display = 'none';
-              },
-              showCanvas: function() {
-                  spinner.style.display = 'none';
-                  canvas.style.display = 'block';
-              },
-          });
-          qtLoader.loadEmscriptenModule("qmlonline");
-      }
+        function openExample(file) {
+            let content = loadFile(file);
+            editor.session.setValue(content);
+            if(Module.self) {
+                Module.self().setCode(content)
+            }
+        }
+
+        function loadFile(filePath) {
+            //TODO: use https://xhr.spec.whatwg.org/
+            let request = new XMLHttpRequest();
+            request.open("GET", "qml/examples/"+ filePath, false);
+            request.send();
+            return request.status === 200 ? request.responseText : "";
+        }
     </script>
+
+    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="qtloader.js"></script>
-  </body>
+    <script type="text/javascript" src="lz-string/libs/lz-string.js"></script>
+    <script type='text/javascript'>
+        var qtLoader;
+        var editor = ace.edit("editor-div");
+        editor.setTheme("ace/theme/dracula");
+        editor.session.setMode("ace/mode/rust");
+        editor.setOption("showInvisibles", true)
+        editor.commands.addCommand({
+            name: 'save',
+            bindKey: {
+                win: "Ctrl-S",
+                "mac": "Cmd-S"
+            },
+            exec: function(editor) {
+                Module.self().setCode(editor.session.getValue())
+            }
+        })
+
+        function init() {
+            // Get params
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Check for code in param
+            const codeParam = urlParams.get('code');
+            if(codeParam) { // We do have code!
+                decodeCodePara = LZString.decompressFromEncodedURIComponent(codeParam);
+                editor.session.setValue(decodeCodePara)
+            } else { // We don't, load the magic of the infinity happiness
+                openExample('rotationanimator.qml')
+            }
+
+            var spinner = document.querySelector('#qtspinner');
+            var canvas = document.querySelector('#qtcanvas');
+            var status = document.querySelector('#qtstatus')
+
+            var qtLoader = QtLoader({
+                canvasElements: [canvas],
+                showLoader: function(loaderStatus) {
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                    status.innerHTML = loaderStatus + "...";
+                },
+                showError: function(errorText) {
+                    status.innerHTML = errorText;
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                },
+                showExit: function() {
+                    status.innerHTML = "Application exit";
+                    if (qtLoader.exitCode !== undefined)
+                        status.innerHTML += " with code " + qtLoader.exitCode;
+                    if (qtLoader.exitText !== undefined)
+                        status.innerHTML += " (" + qtLoader.exitText + ")";
+                    spinner.style.display = 'block';
+                    canvas.style.display = 'none';
+                    console.log("exit", qtLoader.exitCode)
+                },
+                showCanvas: function() {
+                    spinner.style.display = 'none';
+                    canvas.style.display = 'block';
+                    console.log("what", Module.self)
+                    Module.instantiateWasm = function(imports, successCallback) {
+                        console.log('instantiateWasm: instantiating asynchronously');
+                    };
+                },
+            });
+            qtLoader.loadEmscriptenModule("qmlonline");
+
+            // TODO: Find a better way to set the initial code and wait for the webassembly to start
+            var intervalID = setInterval(
+                function() {
+                    console.log("Waiting for webassembly to load...")
+                    if (Module.self !== undefined) {
+                        clearInterval(intervalID);
+                        Module.self().setCode(editor.session.getValue())
+                    }
+                },
+            100);
+        }
+
+        // function is used for dragging and moving
+        function dragElement(element) {
+            var md; // remember mouse down info
+            const first = document.getElementById("editor-div");
+            const second = document.getElementById("qml-div");
+            const qtcanvas = document.getElementById("qtcanvas");
+
+            element.onmousedown = onMouseDown;
+
+            function onMouseDown(e) {
+                md = {
+                    e,
+                    offsetLeft: element.offsetLeft,
+                        offsetTop: element.offsetTop,
+                        firstWidth: first.offsetWidth,
+                        secondWidth: second.offsetWidth
+                };
+                document.onmousemove = onMouseMove;
+                document.onmouseup = () => {
+                    document.onmousemove = document.onmouseup = null;
+                }
+            }
+
+            function onMouseMove(e) {
+                var delta = {
+                    x: e.clientX - md.e.x,
+                    y: e.clientY - md.e.y
+                };
+
+                delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
+
+                element.style.left = md.offsetLeft + delta.x + "px";
+                first.style.width = (md.firstWidth + delta.x) + "px";
+                second.style.width = (md.secondWidth - delta.x) + "px";
+                qtcanvas.style.setProperty("width", second.style.width + "px", "important");
+            }
+        }
+
+        dragElement(document.getElementById("separator"));
+
+        function share() {
+            let string = editor.session.getValue();
+            let compressed = LZString.compressToEncodedURIComponent(string);
+            console.log("Compressed in:", compressed.length/string.length)
+
+            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href + "?code=" + encodeURI(compressed)
+
+            let request = new XMLHttpRequest();
+            request.open('GET', tinyUrl);
+            // TODO: Only for debug, remove after github pages test
+            open(tinyUrl)
+            request.send();
+            request.onload = function() {
+                if (request.status == 200) {
+                    console.log(`Get OK ${request.response}`)
+                    var popup = document.getElementById("myPopup");
+                    popup.value = request.response
+                    popup.classList.toggle("show");
+                } else {
+                    console.log(`GET Error ${request.status}: ${request.statusText}`);
+                }
+            }
+
+        }
+    </script>
+</body>
+
 </html>
