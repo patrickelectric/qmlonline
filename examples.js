@@ -9,11 +9,11 @@ function getExamples() {
             file: "anchorchanges.qml"
         },
         {
-            name: "Animeted Image",
+            name: "Animated Image",
             file: "animatedimage.qml"
         },
         {
-            name: "Animeted Sprite",
+            name: "Animated Sprite",
             file: "animatedsprite.qml"
         },
         {
