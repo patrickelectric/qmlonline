@@ -8,4 +8,4 @@ Play online with QML, thanks to WebAssembly!
 
 > You can also check the [desktop version: QHot!](https://github.com/patrickelectric/qhot)!
 
-Build with: docker run --rm -v ~/.emscripten_cache:/root/.emscripten_cache -v $(pwd):/src/ -u $(id -u):$(id -g) madmanfred/qt-webassembly make
+Build with: `docker run --rm -v ~/.emscripten_cache:/emsdk_portable/.data/cache -v $(pwd)/:/src/ -u $(id -u):$(id -g) madmanfred/qt-webassembly make`
