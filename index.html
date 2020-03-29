@@ -269,6 +269,11 @@
                 Module.self().setCode(editor.session.getValue())
             }
         })
+        editor.getSession().on('change', function() {
+            if(Module.self) {
+                Module.self().setCode(editor.session.getValue())
+            }
+        });
 
         function init() {
             // Get params
