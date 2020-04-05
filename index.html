@@ -286,6 +286,7 @@
         })
         editor.getSession().on('change', function() {
             if(Module.self && document.getElementById("reload-button").style.backgroundColor != "black") {
+                editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
             }
         });
@@ -344,6 +345,47 @@
             var intervalID = setInterval(
                 function() {
                     console.log("Waiting for webassembly to load...")
+
+                    if (Module && !Module.printErr) {
+                        Module.printErr = function (text) {
+                            console.log(`Error: ${text}`)
+
+                            //const match = /qrc:\/userItem:(?<line_number>\d+): (?<error_message>.*)/.exec(lines[i])
+                            let match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
+
+                            if (match) {
+                                let line_number = match[1]
+                                let error_message = match[2]
+                                console.log('line only: ' + match)
+
+                                editor.session.setAnnotations([{
+                                    row: line_number - 1,
+                                    column: 0,
+                                    text: error_message,
+                                    type: "error"
+                                }]);
+                            }
+
+                            //const match = /qrc:\/userItem:(?<line_number>\d+):(?<column_number>\d+): (?<error_message>.*)/
+                            match = /qrc:\/userItem:(\d+):(\d+): (.*)/.exec(text)
+
+                            if (match) {
+                                let line_number = match[1]
+                                let column_number = match[2]
+                                let error_message = match[3]
+
+                                console.log('line and column: ' + match)
+
+                                editor.session.setAnnotations([{
+                                    row: line_number - 1,
+                                    column: column_number,
+                                    text: error_message,
+                                    type: "error"
+                                }]);
+                            }
+                        }
+                    }
+
                     if (Module.self !== undefined) {
                         clearInterval(intervalID);
                         Module.self().setCode(editor.session.getValue())
