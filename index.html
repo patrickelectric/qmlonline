@@ -291,6 +291,8 @@
             }
         });
 
+        var qtLoader;
+
         function init() {
             // Get params
             const urlParams = new URLSearchParams(window.location.search);
@@ -308,7 +310,7 @@
             var canvas = document.querySelector('#qtcanvas');
             var status = document.querySelector('#qtstatus')
 
-            var qtLoader = QtLoader({
+            qtLoader = QtLoader({
                 canvasElements: [canvas],
                 showLoader: function(loaderStatus) {
                     spinner.style.display = 'block';
@@ -429,6 +431,7 @@
                 first.style.width = (md.firstWidth + delta.x) + "px";
                 second.style.width = (md.secondWidth - delta.x) + "px";
                 qtcanvas.style.setProperty("width", second.style.width + "px", "important");
+                qtLoader.resizeCanvasElement(qtcanvas);
             }
         }
 
