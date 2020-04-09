@@ -33,6 +33,10 @@ function getExamples() {
             file: "canvasadvanced.qml"
         },
         {
+            name: "Game pong",
+            file: "pong.qml"
+        },
+        {
             name: "Json Model",
             file: "jsonmodel.qml"
         },
