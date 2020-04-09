@@ -350,7 +350,7 @@
 
                     if (Module && !Module.printErr) {
                         Module.printErr = function (text) {
-                            console.log(`Error: ${text}`)
+                            console.log(text)
 
                             //const match = /qrc:\/userItem:(?<line_number>\d+): (?<error_message>.*)/.exec(lines[i])
                             let match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
