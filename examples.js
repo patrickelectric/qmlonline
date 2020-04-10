@@ -37,6 +37,10 @@ function getExamples() {
             file: "pong.qml"
         },
         {
+            name: "GridLayout",
+            file: "gridlayout.qml"
+        },
+        {
             name: "Json Model",
             file: "jsonmodel.qml"
         },
