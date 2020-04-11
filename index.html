@@ -283,12 +283,14 @@
             },
             exec: function(editor) {
                 Module.self().setCode(editor.session.getValue())
+                localStorage.setItem("lastSessionCode", editor.session.getValue());
             }
         })
         editor.getSession().on('change', function() {
             if(Module.self && document.getElementById("reload-button").style.backgroundColor != "black") {
                 editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
+                localStorage.setItem("lastSessionCode", editor.session.getValue());
             }
         });
 
@@ -303,8 +305,17 @@
             if(codeParam) { // We do have code!
                 decodeCodePara = LZString.decompressFromEncodedURIComponent(codeParam);
                 editor.session.setValue(decodeCodePara)
-            } else { // We don't, load the magic of the infinity happiness
-                openExample('rotationanimator.qml')
+            } else { // We don't
+                // Try to load last session
+                var lastSessionCode = localStorage.getItem("lastSessionCode");
+                if(lastSessionCode) {
+                    editor.session.setValue(lastSessionCode);
+                    if(Module.self) {
+                        Module.self().setCode(lastSessionCode)
+                    }
+                } else { // No last session, load the magic of the infinity happiness
+                    openExample('rotationanimator.qml')
+                }
             }
 
             var spinner = document.querySelector('#qtspinner');
