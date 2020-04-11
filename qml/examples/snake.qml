@@ -107,8 +107,8 @@ Rectangle {
 
     GridLayout {
         id: grid
-        rows: 10
-        columns: 10
+        rows: 15
+        columns: 15
         columnSpacing: 0
         rowSpacing: 0
         anchors.fill: parent
