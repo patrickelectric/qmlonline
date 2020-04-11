@@ -13,7 +13,7 @@ Rectangle {
 
     Item {
         id: snake
-        z: 0
+        z: -1
         property var initialBody: [Qt.point(2, 0), Qt.point(1, 0), Qt.point(0, 0)]
         property var body: initialBody
         property var direction: Qt.point(1, 0)
