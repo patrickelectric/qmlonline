@@ -33,11 +33,11 @@ function getExamples() {
             file: "canvasadvanced.qml"
         },
         {
-            name: "Game pong",
+            name: "Game 1",
             file: "pong.qml"
         },
         {
-            name: "Game snake",
+            name: "Game 2",
             file: "snake.qml"
         },
         {
