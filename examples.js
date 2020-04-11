@@ -37,6 +37,10 @@ function getExamples() {
             file: "pong.qml"
         },
         {
+            name: "Game snake",
+            file: "snake.qml"
+        },
+        {
             name: "GridLayout",
             file: "gridlayout.qml"
         },
