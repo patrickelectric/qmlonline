@@ -274,6 +274,7 @@
         editor.setTheme("ace/theme/dracula");
         editor.session.setMode("ace/mode/rust");
         editor.setOption("showInvisibles", true)
+        editor.setOption("useWorker", false); // Avoid problems with syntax check
         editor.commands.addCommand({
             name: 'save',
             bindKey: {
@@ -360,12 +361,14 @@
                                 let error_message = match[2]
                                 console.log('line only: ' + match)
 
-                                editor.session.setAnnotations([{
-                                    row: line_number - 1,
-                                    column: 0,
-                                    text: error_message,
-                                    type: "error"
-                                }]);
+                                var annotations = editor.session.getAnnotations()
+                                annotations.push({
+                                        row: line_number - 1,
+                                        column: 0,
+                                        text: error_message,
+                                        type: "error"
+                                });
+                                editor.session.setAnnotations(annotations);
                             }
 
                             //const match = /qrc:\/userItem:(?<line_number>\d+):(?<column_number>\d+): (?<error_message>.*)/
@@ -378,12 +381,14 @@
 
                                 console.log('line and column: ' + match)
 
-                                editor.session.setAnnotations([{
-                                    row: line_number - 1,
-                                    column: column_number,
-                                    text: error_message,
-                                    type: "error"
-                                }]);
+                                var annotations = editor.session.getAnnotations()
+                                annotations.push({
+                                        row: line_number - 1,
+                                        column: column_number,
+                                        text: error_message,
+                                        type: "error"
+                                });
+                                editor.session.setAnnotations(annotations);
                             }
                         }
                     }
