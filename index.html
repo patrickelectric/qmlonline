@@ -36,11 +36,12 @@
             <script type="text/javascript">
                 function automatic_reload_checkbox() {
                     let element = document.getElementById("reload-button");
-                    if (element.style.backgroundColor != "#2F2F32") {
-                        element.style.backgroundColor = "#2F2F32";
+                    if (element.style.backgroundColor != "rgb(47, 47, 50)") {
+                        element.style.backgroundColor = "rgb(47, 47, 50)";
                         element.classList.add("highlight-green");
                     } else {
-                        element.style.backgroundColor = "#3e8e41";
+                        element.style.backgroundColor = "#38d84b";
+                        element.classList.remove("highlight-green");
                     }
                 }
             </script>
