@@ -82,7 +82,7 @@ canvas {
     position: absolute;
     bottom: 7px; 
     right: 4px;
-    border-bottom: 13px solid rgba(50, 74, 55, 0.979);
+    border-bottom: 13px solid rgba(47, 47, 50, 0.979);
     border-left: 14px solid rgba(255, 255, 255, 0);
     width: 0;
 }
@@ -92,7 +92,7 @@ canvas {
     position: absolute;
     top: 7px; 
     left: 4px;
-    border-top: 13px solid #2f4133f8;
+    border-top: 13px solid rgba(47, 47, 50, 0.979);
     border-right: 14px solid rgba(103, 202, 94, 0);
     width: 0;
 }
