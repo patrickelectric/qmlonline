@@ -4,175 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <title>qmlonline</title>
-    <style>
-        html,
-        body {
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-            height: 100%
-        }
-        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-        canvas {
-            border: 0px none;
-            background-color: white;
-            height: 100%;
-            width: 100%;
-        }
-        /* The content editable property is set to true for the canvas in order to support
-         clipboard events. Hide the resulting focus frame and set the cursor back to
-         the default cursor. */
-        canvas {
-            outline: 0px solid transparent;
-            caret-color: transparent;
-            cursor: default
-        }
-
-        .header-row {
-            background: #2f2f32;
-            height: 30px;
-        }
-
-        .splitter {
-            width: 100%;
-            height: calc(100% - 30px);
-            display: flex;
-        }
-
-        #separator {
-            cursor: col-resize;
-            background-color: #aaa;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 10px;
-            height: 100%;
-            /* prevent browser's built-in drag from interfering */
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        #editor-div {
-            width: 50%;
-            height: 100%;
-            min-width: 10px;
-        }
-
-        #qml-div {
-            background-color: #eee;
-            width: 50%;
-            height: 100%;
-            min-width: 10px;
-        }
-
-        /* Dropdown Button */
-        .dropdown-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px;
-            font-size: 16px;
-            border: none;
-            font-family: sans-serif;
-            margin-top: 0.1em;
-            margin-bottom: 0.1em;
-        }
-
-        /* The container <div> - needed to position the dropdown content */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        /* Dropdown Content (Hidden by Default) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        /* Links inside the dropdown */
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;;
-        }
-
-        /* Change color of dropdown links on hover */
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        /* Show the dropdown menu on hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-            position: absolute;
-            z-index: 100
-        }
-
-        /* Change the background color of the dropdown button when the dropdown content is shown */
-        .dropdown:hover .dropdown-button {
-            background-color: #3e8e41;
-        }
-
-        .header-brand-1 {
-            color: #fff;
-            font-weight: 400;
-            line-height: 1.15em;
-            letter-spacing: -1px;
-            margin-left: 0.2em;
-            margin-right: 0.1em;
-            font-family: sans-serif;
-        }
-
-        .header-brand-2 {
-            color: #fff;
-            font-style: italic;
-            font-family: sans-serif;
-            margin-right: 0.2em;
-        }
-
-        .github-icon {
-            color: #fff;
-            height: 1.5em;
-        }
-
-        .github-button {
-            align-items: center;
-            color: #fff;
-            height: 1.5em;
-            margin-top: 0.2em;
-            margin-right: 0.4em;
-            float: right !important;
-            cursor: pointer;
-        }
-
-        #overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.8);
-            z-index: 10000;
-            cursor: pointer;
-        }
-
-        #overlay-text {
-            color: #fff;
-            display: block;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            top: 30%;
-            position: absolute;
-            line-height: 23pt;
-        }
-    </style>
 </head>
 
 <div id="overlay" onclick="overlayOff()">
@@ -203,8 +36,9 @@
             <script type="text/javascript">
                 function automatic_reload_checkbox() {
                     let element = document.getElementById("reload-button");
-                    if (element.style.backgroundColor != "black") {
-                        element.style.backgroundColor = "black";
+                    if (element.style.backgroundColor != "#2F2F32") {
+                        element.style.backgroundColor = "#2F2F32";
+                        element.classList.add("highlight-green");
                     } else {
                         element.style.backgroundColor = "#3e8e41";
                     }
@@ -285,7 +119,7 @@
             }
         })
         editor.getSession().on('change', function() {
-            if(Module.self && document.getElementById("reload-button").style.backgroundColor != "black") {
+            if(Module.self && document.getElementById("reload-button").style.backgroundColor != "#2F2F32") {
                 editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
             }
