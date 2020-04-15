@@ -33,7 +33,7 @@ canvas {
 
 .splitter {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 50px); // This value should the same as header-row.height
     display: flex;
 }
 
