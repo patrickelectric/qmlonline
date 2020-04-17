@@ -33,7 +33,7 @@ canvas {
 
 .splitter {
     width: 100%;
-    height: calc(100% - 50px); /* This value should the same as header-row.height*/
+    height: calc(100% - 74px); /* This value should the same as header-row.height*/
     display: flex;
 }
 
@@ -205,4 +205,26 @@ canvas {
     top: 30%;
     position: absolute;
     line-height: 23pt;
+}
+
+/* Status bar */
+
+.status-bar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    font-size: 12px;
+    position: fixed;
+    padding: 1px 5px;
+    background-color: rgb(56, 216, 75);
+    color: #ffffff;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    height: 22px;
+    z-index: 9999;
+}
+
+.status-bar p {
+    margin: 0;
 }
