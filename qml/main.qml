@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
-import org.kde.kirigami 2.4
+import org.kde.kirigami 2.4 as Kirigami
 
 import Util 1.0
 
@@ -29,5 +29,13 @@ ApplicationWindow {
         }
 
         Component.onCompleted: userParentItem.create(Util.code)
+    }
+
+     Kirigami.ContextDrawer {
+        id: contextDrawer
+    }
+
+    Component.onCompleted: {
+        print("oi", contextDrawer)
     }
 }

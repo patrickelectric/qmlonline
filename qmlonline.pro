@@ -1,7 +1,9 @@
 TARGET = qmlonline
 
 CONFIG += \
-    c++14
+    c++14 \
+    static \
+
 
 include(3rdparty/kirigami/kirigami.pri)
 
