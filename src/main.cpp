@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QDebug>
 #include <QQmlApplicationEngine>
 #include "util.h"
 
@@ -14,7 +15,21 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     KirigamiPlugin::getInstance().registerTypes();
-    QQmlApplicationEngine appEngine(QUrl("qrc:/main.qml"));
+    QQmlApplicationEngine appEngine;
 
-    return app.exec();
+    QObject::connect(Util::self(), &Util::codeChanged, [&appEngine]() {
+        qDebug() << "LOAD DATA!";
+        appEngine.loadData(Util::self()->code().toLatin1());
+        qDebug() << "LOADED DATA!";
+        //appt.quit();
+    });
+
+    while(true) {
+        //appEngine.loadData( );
+        qDebug() << "START APP!";
+        app.exec();
+        qDebug() << "END APP!";
+    }
+
+    return 0;
 }
