@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
     KirigamiPlugin::getInstance().registerTypes();
     QQmlApplicationEngine appEngine;
 
-    QObject::connect(Util::self(), &Util::codeChanged, [&appEngine]() {
+    QObject::connect(Util::self(), &Util::codeChanged, [&app, &appEngine]() {
         qDebug() << "LOAD DATA!";
         appEngine.loadData(Util::self()->code().toLatin1());
         qDebug() << "LOADED DATA!";
-        //appt.quit();
+        app.quit();
     });
 
     while(true) {
