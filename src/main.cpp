@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(Util::self(), &Util::codeChanged, [&app, &appEngine]() {
         qDebug() << "LOAD DATA!";
-        appEngine.loadData(Util::self()->code().toUtf8());
+        appEngine.loadData(Util::self()->code().toLatin1());
         qDebug() << "LOADED DATA!";
     });
 
