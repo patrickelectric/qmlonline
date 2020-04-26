@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     QObject::connect(Util::self(), &Util::codeChanged, [&app, &appEngine]() {
         qDebug() << "LOAD DATA!";
         appEngine.loadData(Util::self()->code().toLatin1());
+        app.quit();
         qDebug() << "LOADED DATA!";
     });
 
