@@ -79,5 +79,9 @@ Kirigami.ApplicationWindow {
 )"
 );
 
-    return app.exec();
+    while(true) {
+        app.exec();
+        qDebug() << "spin!";
+    }
+    return 0;
 }
