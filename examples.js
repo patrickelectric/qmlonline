@@ -17,6 +17,10 @@ function getExamples() {
             file: "animatedsprite.qml"
         },
         {
+            name: "Animation Easing Type",
+            file: "animation-easing-type.qml"
+        },
+        {
             name: "Binding",
             file: "binding.qml"
         },
