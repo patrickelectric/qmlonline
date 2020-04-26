@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file alias="main.qml">qml/main.qml</file>
+        <file>3rdparty/kirigami/src/controls/qmldir</file>
+        <file>3rdparty/kirigami/src/controls/templates/qmldir</file>
+        <file>3rdparty/kirigami/src/qmldir</file>
     </qresource>
 </RCC>
