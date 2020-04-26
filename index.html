@@ -293,7 +293,7 @@
             let compressed = LZString.compressToEncodedURIComponent(string);
             console.log("Compressed in:", compressed.length/string.length)
 
-            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href + "?code=" + encodeURI(compressed)
+            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href.split('?')[0] + "?code=" + encodeURI(compressed)
 
             let request = new XMLHttpRequest();
             request.open('GET', tinyUrl);
