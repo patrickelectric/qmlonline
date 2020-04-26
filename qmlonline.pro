@@ -3,6 +3,8 @@ TARGET = qmlonline
 CONFIG += \
     c++14
 
+include(3rdparty/kirigami/kirigami.pri)
+
 QT += \
     bluetooth \
     charts \
