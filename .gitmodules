@@ -1,3 +1,9 @@
 [submodule "lz-string"]
 	path = lz-string
 	url = https://github.com/pieroxy/lz-string/
+[submodule "3rdparty/kirigami"]
+	path = 3rdparty/kirigami
+	url = git://anongit.kde.org/kirigami.git
+[submodule "3rdparty/breeze-icons"]
+	path = 3rdparty/breeze-icons
+	url = git://anongit.kde.org/breeze-icons.git
