@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
         qDebug() << "LOAD DATA!";
         appEngine.loadData(Util::self()->code().toLatin1());
         qDebug() << "LOADED DATA!";
-        app.quit();
     });
 
     while(true) {
