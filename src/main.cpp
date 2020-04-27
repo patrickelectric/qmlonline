@@ -48,6 +48,7 @@ ApplicationWindow {
     std::unique_ptr<QObject> componentPtr;
     QObject::connect(Util::self(), &Util::codeChanged, [&componentPtr, &component]() {
         qDebug() << "LOAD DATA!";
+        qDebug() << Util::self()->code().toLatin1();
         component.setData(Util::self()->code().toLatin1(), {});
         componentPtr.reset(component.create());
         qDebug() << "Component status:" << component.status();
