@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
+import QtQml.Models 2.12
+
 import Util 1.0
 
 ApplicationWindow {
