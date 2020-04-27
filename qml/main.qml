@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.13
 
 import QtQml.Models 2.12
 
+import Qt.labs.calendar 1.0
+
 import Util 1.0
 
 ApplicationWindow {
