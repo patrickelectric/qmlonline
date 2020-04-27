@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     QQmlEngine engine;
     QQmlComponent component(&engine);
 
+/*
         component.setData(
 R"(
 import QtQuick.Controls 2.12
@@ -42,16 +43,17 @@ ApplicationWindow {
 
             , {});
         component.create();
+        */
 
-    qDebug() << "Component status:" << component.status();
+    std::unique_ptr<QObject> componentPtr;
+    QObject::connect(Util::self(), &Util::codeChanged, [&componentPtr, &component]() {
+        qDebug() << "LOAD DATA!";
+        component.setData(Util::self()->code().toLatin1(), {});
+        componentPtr.reset(component.create());
+        qDebug() << "Component status:" << component.status();
         if (component.isError()) {
             qDebug() << "Error list:" << component.errors();
         }
-
-    QObject::connect(Util::self(), &Util::codeChanged, [&component]() {
-        qDebug() << "LOAD DATA!";
-        component.setData(Util::self()->code().toLatin1(), {});
-        component.create();
         qDebug() << "LOADED DATA!";
     });
 
