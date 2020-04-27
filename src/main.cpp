@@ -18,9 +18,61 @@ int main(int argc, char *argv[])
     KirigamiPlugin::getInstance().registerTypes();
     QQmlEngine engine;
     QQmlComponent component(&engine);
+
+        component.setData(
+R"(
+import QtQuick.Controls 2.12
+
+ApplicationWindow {
+    visible: true
+
+    menuBar: MenuBar {
+
+    }
+
+    Button {
+        z: 10000000
+        text: "potato"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        onClicked: print("potato")
+    }
+}
+)"
+
+            , {});
+        component.create();
+
+    qDebug() << "Component status:" << component.status();
+        if (component.isError()) {
+            qDebug() << "Error list:" << component.errors();
+        }
+
     QObject::connect(Util::self(), &Util::codeChanged, [&component]() {
         qDebug() << "LOAD DATA!";
-        component.setData(Util::self()->code().toLatin1(), {});
+        component.setData(
+R"(
+import QtQuick.Controls 2.12
+
+ApplicationWindow {
+    visible: true
+    focus: true
+
+    menuBar: MenuBar {
+
+    }
+
+    Button {
+        z: 10000000
+        text: "potato"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        onClicked: print("potato")
+    }
+}
+)"
+
+            , {});
         component.create();
         qDebug() << "LOADED DATA!";
     });
