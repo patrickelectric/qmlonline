@@ -50,29 +50,7 @@ ApplicationWindow {
 
     QObject::connect(Util::self(), &Util::codeChanged, [&component]() {
         qDebug() << "LOAD DATA!";
-        component.setData(
-R"(
-import QtQuick.Controls 2.12
-
-ApplicationWindow {
-    visible: true
-    focus: true
-
-    menuBar: MenuBar {
-
-    }
-
-    Button {
-        z: 10000000
-        text: "potato"
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: print("potato")
-    }
-}
-)"
-
-            , {});
+        component.setData(Util::self()->code().toLatin1(), {});
         component.create();
         qDebug() << "LOADED DATA!";
     });
