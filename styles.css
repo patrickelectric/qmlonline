@@ -206,3 +206,26 @@ canvas {
     position: absolute;
     line-height: 23pt;
 }
+
+/* Status bar */
+
+.status-bar {
+    width: 49%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    font-size: 12px;
+    position: absolute;
+    padding: 1px 5px;
+    background-color: rgb(56, 216, 75);
+    color: #ffffff;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    height: 22px;
+    z-index: 9999;
+}
+
+.status-bar p {
+    margin: 0;
+}
