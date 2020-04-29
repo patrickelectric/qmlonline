@@ -82,8 +82,8 @@ canvas {
     position: absolute;
     bottom: 7px; 
     right: 4px;
-    //border-bottom: 13px solid rgba(47, 47, 50, 0.979);
-    //border-left: 14px solid rgba(255, 255, 255, 0);
+    /*border-bottom: 13px solid rgba(47, 47, 50, 0.979); */
+    /*border-left: 14px solid rgba(255, 255, 255, 0); */
     width: 0;
 }
 
@@ -92,8 +92,8 @@ canvas {
     position: absolute;
     top: 7px; 
     left: 4px;
-    //border-top: 13px solid rgba(47, 47, 50, 0.979);
-    //border-right: 14px solid rgba(103, 202, 94, 0);
+    /*border-top: 13px solid rgba(47, 47, 50, 0.979);*/
+    /*border-right: 14px solid rgba(103, 202, 94, 0);*/
     width: 0;
 }
 
@@ -223,9 +223,30 @@ canvas {
     right: 0;
     bottom: 0px;
     height: 22px;
-    z-index: 9999;
+    z-index: 999;
 }
 
 .status-bar p {
+    margin: 0;
+}
+
+/* Terminal */
+
+#terminal {
+    position: fixed;
+    bottom: 24px;
+    font-size: 16px;
+    left: 0;
+    color: white;
+    background-color: rgb(36, 38, 49);
+    border: 1px solid rgb(68, 70, 80);
+    width: 48.5%;
+    padding: 0px 5px;
+    height: 8px;
+    min-height: 8px;
+    z-index: 5;
+}
+
+#terminal p {
     margin: 0;
 }
