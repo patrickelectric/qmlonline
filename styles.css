@@ -114,7 +114,9 @@ canvas {
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
-    padding: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.096);
     z-index: 1;
     border-radius: 5px;
