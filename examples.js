@@ -80,5 +80,9 @@ function getExamples() {
             name: "Taphandler",
             file: "taphandler.qml"
         },
+        {
+            name: "Text Format",
+            file: "textformat.qml"
+        },
     ]
 }
