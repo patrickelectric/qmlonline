@@ -53,6 +53,10 @@ function getExamples() {
             file: "jsonmodel.qml"
         },
         {
+            name: "ListModel/ListElement",
+            file: "listmodel.qml"
+        },
+        {
             name: "Repeater",
             file: "repeater.qml"
         },
