@@ -69,7 +69,12 @@
         <!-- Status Bar -->
         <div id="status-bar" class="status-bar">
             <p> Status Bar </p>
-            <p>Ln ${Linha} Col ${Coluna}</p>
+            <p id="status-bar-line"></p>
+            <script type='text/javascript'>
+                function updateStatusBarLineColumnFromCursos(cursor) {
+                    document.getElementById("status-bar-line").innerHTML = `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
+                }
+             </script>
         </div>
     </div>
     <!-- Terminal -->
@@ -147,6 +152,10 @@
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
             }
         });
+
+        editor.getSelection().on('changeCursor', function() {
+            updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
+        })
 
         var qtLoader;
 
