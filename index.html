@@ -92,7 +92,7 @@
     <script type='text/javascript'>
         const examples = getExamples();
         let select = document.getElementById("dropdown-content");
-        for(let i in examples) {
+        for (let i in examples) {
             const opt = examples[i];
             let element = document.createElement("a");
             element.textContent = opt.name;
@@ -105,7 +105,7 @@
         function openExample(file) {
             let content = loadFile(file);
             editor.session.setValue(content);
-            if(Module.self) {
+            if (Module.self) {
                 Module.self().setCode(content)
             }
         }
@@ -113,7 +113,7 @@
         function loadFile(filePath) {
             //TODO: use https://xhr.spec.whatwg.org/
             let request = new XMLHttpRequest();
-            request.open("GET", "qml/examples/"+ filePath, false);
+            request.open("GET", "qml/examples/" + filePath, false);
             request.send();
             return request.status === 200 ? request.responseText : "";
         }
@@ -135,13 +135,13 @@
                 win: "Ctrl-S",
                 "mac": "Cmd-S"
             },
-            exec: function(editor) {
+            exec: function (editor) {
                 Module.self().setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
             }
         })
-        editor.getSession().on('change', function() {
-            if(Module.self && document.getElementById("reload-button").style.backgroundColor != "#2F2F32") {
+        editor.getSession().on('change', function () {
+            if (Module.self && document.getElementById("reload-button").style.backgroundColor != "#2F2F32") {
                 editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
@@ -156,7 +156,7 @@
 
             // Check for code in param
             const codeParam = urlParams.get('code');
-            if(codeParam) { // We do have code!
+            if (codeParam) { // We do have code!
                 decodeCodePara = LZString.decompressFromEncodedURIComponent(codeParam);
                 editor.session.setValue(decodeCodePara)
             } else { // We don't
@@ -178,17 +178,17 @@
 
             qtLoader = QtLoader({
                 canvasElements: [canvas],
-                showLoader: function(loaderStatus) {
+                showLoader: function (loaderStatus) {
                     spinner.style.display = 'block';
                     canvas.style.display = 'none';
                     status.innerHTML = loaderStatus + "...";
                 },
-                showError: function(errorText) {
+                showError: function (errorText) {
                     status.innerHTML = errorText;
                     spinner.style.display = 'block';
                     canvas.style.display = 'none';
                 },
-                showExit: function() {
+                showExit: function () {
                     status.innerHTML = "Application exit";
                     if (qtLoader.exitCode !== undefined)
                         status.innerHTML += " with code " + qtLoader.exitCode;
@@ -198,11 +198,11 @@
                     canvas.style.display = 'none';
                     console.log("exit", qtLoader.exitCode)
                 },
-                showCanvas: function() {
+                showCanvas: function () {
                     spinner.style.display = 'none';
                     canvas.style.display = 'block';
                     console.log("what", Module.self)
-                    Module.instantiateWasm = function(imports, successCallback) {
+                    Module.instantiateWasm = function (imports, successCallback) {
                         console.log('instantiateWasm: instantiating asynchronously');
                     };
                 },
@@ -211,7 +211,7 @@
 
             // TODO: Find a better way to set the initial code and wait for the webassembly to start
             var intervalID = setInterval(
-                function() {
+                function () {
                     console.log("Waiting for webassembly to load...")
 
                     if (Module && !Module.printErr) {
@@ -263,7 +263,7 @@
                         Module.self().setCode(editor.session.getValue())
                     }
                 },
-            100);
+                100);
         }
 
         // function is used for dragging and moving
@@ -316,7 +316,7 @@
         function share() {
             let string = editor.session.getValue();
             let compressed = LZString.compressToEncodedURIComponent(string);
-            console.log("Compressed in:", compressed.length/string.length)
+            console.log("Compressed in:", compressed.length / string.length)
 
             let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href.split('?')[0] + "?code=" + encodeURI(compressed)
 
@@ -325,7 +325,7 @@
             // TODO: Only for debug, remove after github pages test
             open(tinyUrl)
             request.send();
-            request.onload = function() {
+            request.onload = function () {
                 if (request.status == 200) {
                     console.log(`Get OK ${request.response}`)
                     var popup = document.getElementById("myPopup");
