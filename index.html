@@ -91,6 +91,21 @@
             }
             );
         })
+
+        function appendLine(content) {
+            let terminal = document.getElementById("terminal-content")
+            let element = document.createElement("p");
+            element.innerHTML = '> ' + content
+            terminal.appendChild(element)
+            terminal.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
+        // Debug code for bia
+        /*
+        setInterval(function() {
+            appendLine("potato")
+        }, 200);
+        */
     </script>
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
