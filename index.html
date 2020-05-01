@@ -78,7 +78,7 @@
         </div>
     </div>
     <!-- Terminal -->
-    <div id="terminal">
+    <!--div id="terminal">
         <p>></p>
     </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -91,7 +91,7 @@
             }
             );
         })
-    </script>
+    </script-->
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
@@ -282,7 +282,7 @@
             const statusBar = document.getElementById("status-bar");
             const second = document.getElementById("qml-div");
             const qtcanvas = document.getElementById("qtcanvas");
-            const terminal = document.getElementById("terminal");
+            //const terminal = document.getElementById("terminal");
 
             element.onmousedown = onMouseDown;
 
@@ -294,7 +294,7 @@
                     firstWidth: first.offsetWidth,
                     secondWidth: second.offsetWidth,
                     statusBarWidth: statusBar.offsetWidth,
-                    terminalWidth: statusBar.offsetWidth,
+                    //terminalWidth: statusBar.offsetWidth,
                 };
                 document.onmousemove = onMouseMove;
                 document.onmouseup = () => {
@@ -312,7 +312,7 @@
 
                 element.style.left = md.offsetLeft + delta.x + "px";
                 statusBar.style.width = (md.statusBarWidth + delta.x - 10) + "px";
-                terminal.style.width = (md.terminalWidth + delta.x - 15) + "px";
+                //terminal.style.width = (md.terminalWidth + delta.x - 15) + "px";
                 first.style.width = (md.firstWidth + delta.x) + "px";
                 second.style.width = (md.secondWidth - delta.x) + "px";
                 qtcanvas.style.setProperty("width", second.style.width + "px", "!important");
