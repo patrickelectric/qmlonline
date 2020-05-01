@@ -79,7 +79,7 @@
     </div>
     <!-- Terminal -->
     <div id="terminal">
-        <p>></p>
+        <div id="terminal-content"> </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
@@ -87,7 +87,7 @@
     <script>
        $( function () {
             $("#terminal").resizable( {
-                handles: 'n' // only resize up
+                handles: 'n', // only resize up
             }
             );
         })
@@ -227,8 +227,18 @@
                         Module.printErr = function (text) {
                             console.log(text)
 
+                            // qml message
+                            let match = /qml:\ (.*)/.exec(text)
+                            if (match) {
+                                let terminal = document.getElementById("terminal-content")
+                                let element = document.createElement("p");
+                                element.innerHTML = '> ' + match[1]
+                                terminal.appendChild(element)
+                                terminal.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                            }
+
                             //const match = /qrc:\/userItem:(?<line_number>\d+): (?<error_message>.*)/.exec(lines[i])
-                            let match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
+                            match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
 
                             if (match) {
                                 let line_number = match[1]
@@ -312,7 +322,7 @@
 
                 element.style.left = md.offsetLeft + delta.x + "px";
                 statusBar.style.width = (md.statusBarWidth + delta.x - 10) + "px";
-                terminal.style.width = (md.terminalWidth + delta.x - 15) + "px";
+                terminal.style.width = (md.terminalWidth + delta.x - 30) + "px";
                 first.style.width = (md.firstWidth + delta.x) + "px";
                 second.style.width = (md.secondWidth - delta.x) + "px";
                 qtcanvas.style.setProperty("width", second.style.width + "px", "!important");
