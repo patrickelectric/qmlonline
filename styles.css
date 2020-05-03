@@ -125,6 +125,7 @@ canvas {
 .dropdown-content a {
     color: black;
     width: 240px;
+    height: auto;
     text-decoration: none;
     display: block;
 }
@@ -140,7 +141,7 @@ canvas {
     justify-content: space-between;
     align-items: center;
     width: 600px;
-    height: 240px;
+    height: auto;
     position: absolute;
     display: flex;
     position: absolute;
