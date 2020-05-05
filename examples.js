@@ -57,16 +57,16 @@ function getExamples() {
             file: "listmodel.qml"
         },
         {
-            name: "Search/Regex match",
-            file: "regex-match.qml"
-        },
-        {
             name: "Repeater",
             file: "repeater.qml"
         },
         {
             name: "Rotation Animation",
             file: "rotationanimator.qml"
+        },
+        {
+            name: "Search/Regex match",
+            file: "regex-match.qml"
         },
         {
             name: "Sequential Animation",
