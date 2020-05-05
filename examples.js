@@ -57,6 +57,10 @@ function getExamples() {
             file: "listmodel.qml"
         },
         {
+            name: "Search/Regex match",
+            file: "regex-match.qml"
+        },
+        {
             name: "Repeater",
             file: "repeater.qml"
         },
