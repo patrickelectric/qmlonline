@@ -245,7 +245,13 @@ canvas {
     height: 8px;
     min-height: 8px;
     z-index: 5;
-    overflow: hidden auto
+}
+
+#terminal-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
 }
 
 #terminal p {
