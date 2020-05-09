@@ -61,10 +61,13 @@
     <!-- MAIN -->
     <div class="splitter">
         <!-- Editor -->
-        <div id="editor-div"></div>
-        <!-- Terminal -->
-        <div id="terminal">
-            <div id="terminal-content"> </div>
+        <div id="editor-div_wrapper" class="app_editor_wrapper">
+            <div id="editor-div" class="app_editor"></div>
+            <div id="editor-div_dragbar" class="app_editor_dragbar n"></div>
+            <!-- Terminal -->
+            <div id="terminal" class="terminal">
+                <div id="terminal-content"> </div>
+            </div>
         </div>
         <!-- Separator -->
         <div id="separator"></div>
@@ -96,11 +99,11 @@
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
-            $("#terminal").resizable({
-                handles: 'n', // only resize up
+        /* $(function () {
+            $(".terminal").resizable({
+                handles: 'n' // only resize up
             });
-        })
+        }) */
 
         function appendLine(content) {
             let terminal = document.getElementById("terminal-content")
@@ -114,11 +117,10 @@
         }
 
         // Debug code for bia
-        /*
-        setInterval(function() {
+
+        setInterval(function () {
             appendLine("potato")
         }, 3000);
-        */
     </script>
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
@@ -319,7 +321,7 @@
         // function is used for dragging and moving
         function dragElement(element) {
             var md; // remember mouse down info
-            const first = document.getElementById("editor-div");
+            const first = document.getElementById("editor-div_wrapper");
             const statusBar = document.getElementById("status-bar");
             const second = document.getElementById("qml-div");
             const qtcanvas = document.getElementById("qtcanvas");
@@ -334,8 +336,11 @@
                     offsetTop: element.offsetTop,
                     firstWidth: first.offsetWidth,
                     secondWidth: second.offsetWidth,
+                    firstHeight: first.offsetHeight,
+                    secondHeight: second.offsetHeight,
                     statusBarWidth: statusBar.offsetWidth,
                     terminalWidth: statusBar.offsetWidth,
+                    terminalHeight: terminal.offsetHeight,
                 };
                 document.onmousemove = onMouseMove;
                 document.onmouseup = () => {
@@ -350,10 +355,12 @@
                 };
 
                 delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
+                delta.y = Math.min(Math.max(delta.y, -md.firstHeight), md.secondHeight);
 
                 element.style.left = md.offsetLeft + delta.x + "px";
                 statusBar.style.width = (md.statusBarWidth + delta.x - 10) + "px";
-                terminal.style.width = (md.terminalWidth + delta.x - 30) + "px";
+                terminal.style.width = (md.terminalWidth + delta.x - 17) + "px";
+                //terminal.style.height = (md.terminalHeight + delta.y) + "px";
                 first.style.width = (md.firstWidth + delta.x) + "px";
                 second.style.width = (md.secondWidth - delta.x) + "px";
                 qtcanvas.style.setProperty("width", second.style.width + "px", "!important");
@@ -361,7 +368,58 @@
             }
         }
 
+        dragElement(document.getElementById("editor-div_dragbar"));
         dragElement(document.getElementById("separator"));
+
+        /* RED BAR */
+
+        function dragBar(element) {
+            var md; // remember mouse down info
+            const first = document.getElementById("editor-div_wrapper");
+            const statusBar = document.getElementById("status-bar");
+            const second = document.getElementById("qml-div");
+            const qtcanvas = document.getElementById("qtcanvas");
+            const terminal = document.getElementById("terminal");
+
+            element.onmousedown = onMouseDown;
+
+            function onMouseDown(e) {
+                md = {
+                    e,
+                    offsetLeft: element.offsetLeft,
+                    offsetTop: element.offsetTop,
+                    firstWidth: first.offsetWidth,
+                    secondWidth: second.offsetWidth,
+                    firstHeight: first.offsetHeight,
+                    secondHeight: second.offsetHeight,
+                    statusBarWidth: statusBar.offsetWidth,
+                    terminalWidth: statusBar.offsetWidth,
+                    terminalHeight: terminal.offsetHeight,
+                };
+                document.onmousemove = onMouseMove;
+                document.onmouseup = () => {
+                    document.onmousemove = document.onmouseup = null;
+                }
+            }
+
+            function onMouseMove(e) {
+                var delta = {
+                    x: e.clientX - md.e.x,
+                    y: e.clientY - md.e.y
+                };
+
+                delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
+                delta.y = Math.min(Math.max(delta.y, -md.firstHeight), md.secondHeight);
+
+                terminal.style.height = (md.terminalHeight - delta.y) + "px";
+
+            }
+        }
+
+        dragBar(document.getElementById("editor-div_dragbar"));
+
+
+        /* SHARE */
 
         function share() {
             let string = editor.session.getValue();
@@ -393,6 +451,70 @@
             document.getElementById("overlay").style.display = "none";
         }
         document.getElementById("overlay").style.display = "block";
+
+
+        /* DRAG EDITOR */
+
+        window.draggingAceEditor = {};
+
+        function makeAceEditorResizable(editor) {
+            var id_editor = editor.container.id;
+            var id_dragbar = '#' + id_editor + '_dragbar';
+            var id_wrapper = '#' + id_editor + '_wrapper';
+            var wpoffset = 0;
+            window.draggingAceEditor[id_editor] = false;
+
+            $(id_dragbar).mousedown(function (e) {
+                e.preventDefault();
+
+                window.draggingAceEditor[id_editor] = true;
+
+                var _editor = $('#' + id_editor);
+                var top_offset = _editor.offset().top - wpoffset;
+
+                // Set editor opacity to 0 to make transparent so our wrapper div shows
+                _editor.css('opacity', 1);
+
+                // handle mouse movement
+                $(document).mousemove(function (e) {
+                    var actualY = e.pageY - wpoffset;
+                    // editor height
+                    var eheight = actualY - top_offset;
+
+                    // Set wrapper height
+                    $(id_wrapper).css('height', eheight);
+
+                    // Set dragbar opacity while dragging (set to 0 to not show)
+                    $(id_dragbar).css('opacity', 0);
+                });
+            });
+
+            $(document).mouseup(function (e) {
+                if (window.draggingAceEditor[id_editor]) {
+                    var ctx_editor = $('#' + id_editor);
+
+                    var actualY = e.pageY - wpoffset;
+                    var top_offset = ctx_editor.offset().top - wpoffset;
+                    var eheight = actualY - top_offset;
+
+                    $(document).unbind('mousemove');
+
+                    // Set dragbar opacity back to 1
+                    $(id_dragbar).css('opacity', 1);
+
+                    // Set height on actual editor element, and opacity back to 1
+                    ctx_editor.css('height', eheight).css('opacity', 1);
+
+                    // Trigger ace editor resize()
+                    editor.resize();
+
+                    window.draggingAceEditor[id_editor] = false;
+                }
+            });
+        }
+
+
+        makeAceEditorResizable(editor);
     </script>
 </body>
 
