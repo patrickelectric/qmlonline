@@ -213,7 +213,7 @@ canvas {
 /* Status bar */
 
 .status-bar {
-    width: 49%;
+    width: 49.1%;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -244,7 +244,7 @@ canvas {
     color: white;
     background-color: rgb(36, 38, 49);
     border: 1px solid rgb(68, 70, 80);
-    width: 98%;
+    width: 98.5%;
     padding: 0px 5px;
     height: 30px;
     z-index: 5;
@@ -285,7 +285,7 @@ canvas {
 
   .app_editor_wrapper {
       width: 50%;
-	background-color: #cccccc;
+	background-color: rgb(36, 38, 49);
 	border-bottom: 1px solid #222222;
 }
 
