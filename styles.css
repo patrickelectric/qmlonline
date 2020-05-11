@@ -246,7 +246,6 @@ canvas {
     border: 1px solid rgb(68, 70, 80);
     width: 98%;
     padding: 0px 5px;
-    overflow-y: scroll;
     height: 30px;
     z-index: 5;
 }
