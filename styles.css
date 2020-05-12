@@ -6,7 +6,8 @@ body {
     padding: 0;
     margin: 0;
     overflow: hidden;
-    height: 100%
+    height: 100%;
+    background-color: #282A36;
 }
 
 /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
@@ -32,6 +33,7 @@ canvas {
 }
 
 .splitter {
+    max-height: 100%;
     width: 100%;
     height: calc(100% - 50px); /* This value should the same as header-row.height*/
     display: flex;
@@ -52,9 +54,11 @@ canvas {
 }
 
 #editor-div {
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: 85vh;
     min-width: 10px;
+    min-height: 18px;
+    max-height: 85vh;
 }
 
 #qml-div {
@@ -140,7 +144,7 @@ canvas {
     justify-content: space-between;
     align-items: center;
     width: 600px;
-    height: 240px;
+    height: 280px;
     position: absolute;
     display: flex;
     position: absolute;
@@ -210,7 +214,7 @@ canvas {
 /* Status bar */
 
 .status-bar {
-    width: 49%;
+    width: 49.4%;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -233,21 +237,65 @@ canvas {
 /* Terminal */
 
 #terminal {
-    position: fixed;
-    bottom: 24px;
+    position: absolute;
+    max-height: 86vh;
+    min-height: 25px;
+    bottom: 23px;
     font-size: 14px;
     left: 0;
     color: white;
     background-color: rgb(36, 38, 49);
     border: 1px solid rgb(68, 70, 80);
-    width: 47.5%;
+    width: 48.8%;
     padding: 0px 5px;
-    height: 8px;
-    min-height: 8px;
+    height: 25px;
     z-index: 5;
-    overflow: hidden auto
+}
+
+#terminal-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
 }
 
 #terminal p {
     margin: 0;
+}
+
+/* Scroll design */
+
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(50, 187, 16, 0.897); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #44bb15; 
+  }
+
+  .app_editor_wrapper {
+    width: 50%;
+	background-color: rgb(36, 38, 49);
+	border-bottom: 1px solid #222222;
+}
+
+.app_editor_dragbar {
+	background-color: rgb(56, 216, 75);
+	width: 100%;
+	height: 8px;
+	cursor: row-resize !important;
+    opacity: 1;
+    z-index: 999999;
 }
