@@ -70,6 +70,17 @@
                 <div id="terminal-content"> </div>
             </div>
         </div>
+        <!-- Status Bar -->
+        <div id="status-bar" class="status-bar">
+            <p> Status Bar </p>
+            <p id="status-bar-line"></p>
+            <script type='text/javascript'>
+                function updateStatusBarLineColumnFromCursos(cursor) {
+                    document.getElementById("status-bar-line").innerHTML =
+                        `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
+                }
+            </script>
+        </div>
         <!-- Separator -->
         <div id="separator"></div>
         <div id="qml-div">
@@ -83,17 +94,6 @@
             </figure>
             <!-- Canvas -->
             <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
-        </div>
-        <!-- Status Bar -->
-        <div id="status-bar" class="status-bar">
-            <p> Status Bar </p>
-            <p id="status-bar-line"></p>
-            <script type='text/javascript'>
-                function updateStatusBarLineColumnFromCursos(cursor) {
-                    document.getElementById("status-bar-line").innerHTML =
-                        `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
-                }
-            </script>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -361,7 +361,6 @@
                 element.style.left = md.offsetLeft + delta.x + "px";
                 statusBar.style.width = (md.statusBarWidth + delta.x - 10) + "px";
                 terminal.style.width = (md.terminalWidth + delta.x - 17) + "px";
-                //terminal.style.height = (md.terminalHeight + delta.y) + "px";
                 first.style.width = (md.firstWidth + delta.x) + "px";
                 second.style.width = (md.secondWidth - delta.x) + "px";
                 qtcanvas.style.setProperty("width", second.style.width + "px", "!important");
@@ -369,10 +368,9 @@
             }
         }
 
-        dragElement(document.getElementById("editor-div_dragbar"));
         dragElement(document.getElementById("separator"));
 
-        /* RED BAR */
+        /* DRAGBAR */
 
         function dragBar(element) {
             var md; // remember mouse down info
@@ -412,7 +410,7 @@
                 delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
                 delta.y = Math.min(Math.max(delta.y, -md.firstHeight), md.secondHeight);
 
-                terminal.style.height = (md.terminalHeight - delta.y) + "px";
+                terminal.style.height = (md.terminalHeight - delta.y - 5) + "px";
 
             }
         }
