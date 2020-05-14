@@ -111,6 +111,7 @@
             editor.session.setValue(content);
             if (Module.self) {
                 Module.self().setCode(content)
+                eraseTerminal()
             }
         }
 
@@ -129,6 +130,20 @@
     <script type='text/javascript'>
         var qtLoader;
         var editor = ace.edit("editor-div");
+
+        function appendLine(content) {
+            let terminal = document.getElementById("terminal")
+            let element = document.createElement("p");
+            element.innerHTML = '> ' + content
+            terminal.appendChild(element)
+            terminal.scroll(0, element.offsetTop);
+        }
+
+        function eraseTerminal() {
+            let terminal = document.getElementById("terminal")
+            terminal.innerHTML = '';
+        }
+
         editor.setTheme("ace/theme/dracula");
         editor.session.setMode("ace/mode/qml");
         editor.setOption("showInvisibles", true)
@@ -142,6 +157,7 @@
             exec: function (editor) {
                 Module.self().setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
+                eraseTerminal()
             }
         })
         editor.getSession().on('change', function () {
@@ -149,6 +165,7 @@
                 editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
+                eraseTerminal()
             }
         });
 
@@ -174,6 +191,7 @@
                     editor.session.setValue(lastSessionCode);
                     if(Module.self) {
                         Module.self().setCode(lastSessionCode)
+                        eraseTerminal()
                     }
                 } else { // No last session, load the magic of the infinity happiness
                     openExample('rotationanimator.qml')
@@ -215,14 +233,6 @@
                 },
             });
             qtLoader.loadEmscriptenModule("qmlonline");
-
-            function appendLine(content) {
-                let terminal = document.getElementById("terminal")
-                let element = document.createElement("p");
-                element.innerHTML = '> ' + content
-                terminal.appendChild(element)
-                terminal.scroll(0, element.offsetTop);
-            }
 
             // TODO: Find a better way to set the initial code and wait for the webassembly to start
             var intervalID = setInterval(
@@ -282,6 +292,7 @@
                     if (Module.self !== undefined) {
                         clearInterval(intervalID);
                         Module.self().setCode(editor.session.getValue())
+                        eraseTerminal()
                     }
                 },
                 100);
