@@ -57,7 +57,18 @@
     <div id= "main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplit">
         <div data-role="splitter" data-split-mode="vertical" data-split-sizes="85, 15">
             <div id="editor-div"></div>
-            <div id="terminal"></div>
+            <div id="editor-bottom">
+                <div id="terminal" class="h-100"></div>
+                <div id="status-bar" class="status-bar">
+                    <p> Status Bar </p>
+                    <p id="status-bar-line"></p>
+                    <script type='text/javascript'>
+                        function updateStatusBarLineColumnFromCursos(cursor) {
+                            document.getElementById("status-bar-line").innerHTML = `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
+                        }
+                     </script>
+                </div>
+            </div>
         </div>
         <div id="qml-div">
             <figure style="overflow:visible;" id="qtspinner">
@@ -71,16 +82,6 @@
 
             <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
         </div>
-        <!-- Status Bar -->
-        <!--div id="status-bar" class="status-bar">
-            <p> Status Bar </p>
-            <p id="status-bar-line"></p>
-            <script type='text/javascript'>
-                function updateStatusBarLineColumnFromCursos(cursor) {
-                    document.getElementById("status-bar-line").innerHTML = `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
-                }
-             </script>
-        </div-->
     </div>
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
@@ -152,7 +153,7 @@
         });
 
         editor.getSelection().on('changeCursor', function() {
-            //updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
+            updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
         })
 
         var qtLoader;
