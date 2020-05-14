@@ -221,7 +221,7 @@
                 let element = document.createElement("p");
                 element.innerHTML = '> ' + content
                 terminal.appendChild(element)
-                terminal.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                terminal.scroll(0, element.offsetTop);
             }
 
             // TODO: Find a better way to set the initial code and wait for the webassembly to start
