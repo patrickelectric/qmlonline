@@ -246,3 +246,26 @@ canvas {
     margin: 0;
     width: 100%;
 }
+
+/* Scroll design */
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(50, 187, 16, 0.2);
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(50, 187, 16, 0.7);
+}
+.app_editor_wrapper {
+    width: 50%;
+    background-color: rgb(36, 38, 49);
+    border-bottom: 1px solid #222222;
+}
