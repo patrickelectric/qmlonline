@@ -70,6 +70,7 @@ canvas {
     padding: .2rem 1rem;
     font-size: 16px;
     font-family: "Titillium Web",sans-serif;
+    font-weight: bold;
     border: none;
     margin: 4px 5px;
     height: auto;
@@ -214,6 +215,7 @@ canvas {
     flex-flow: row wrap;
     justify-content: space-between;
     font-size: 11px;
+    font-weight: bold;
     position: absolute;
     padding: 1px 5px;
     background-color: rgb(56, 216, 75);
