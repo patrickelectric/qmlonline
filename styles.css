@@ -26,33 +26,20 @@ canvas {
     cursor: default
 }
 
+:root{
+    --header-height: 30px;
+}
+
 .header-row {
     background: #2f2f32;
-    height: 50px;
+    height: var(--header-height);
 }
 
 .splitter {
     width: 100%;
-    height: calc(100% - 50px); /* This value should the same as header-row.height*/
+    height: calc(100% - var(--header-height));
     display: flex;
 }
-
-/*
-#separator {
-    cursor: col-resize;
-    background: rgb(56, 216, 75);
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='30'><path d='M2 0 v30 M5 0 v30 M8 0 v30' fill='none' stroke='black'/></svg>");
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 10px;
-    height: 100%;
-    */
-    /* prevent browser's built-in drag from interfering */
-    /*
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}*/
 
 #editor-div {
     width: 100%;
@@ -75,7 +62,8 @@ canvas {
     font-size: 16px;
     font-family: "Titillium Web",sans-serif;
     border: none;
-    margin: 8px 5px;
+    margin: 4px 5px;
+    height: auto;
     outline: none;
 }
 
@@ -161,7 +149,7 @@ canvas {
     line-height: 1.15em;
     margin-left: 1em;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 15px;
     font-family: "Titillium Web",sans-serif;
 }
 
@@ -169,15 +157,15 @@ canvas {
     color: #fff;
     font-family: "Titillium Web",sans-serif;
     margin-right: 1em;
-    font-size: 24px;
+    font-size: 15px;
 }
 
 .github-icon {
     color: #fff;
     height: 1.5em;
     position: absolute;
-    top: 11px;
-    right: 20px;
+    top: 4px;
+    right: 10px;
 }
 
 .github-button {
