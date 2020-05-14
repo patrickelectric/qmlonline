@@ -63,6 +63,10 @@ canvas {
     min-width: 10px;
 }
 
+#qtcanvas {
+    height: calc(100% - var(--header-height));
+}
+
 /* Dropdown Button */
  .dropdown-button {
     background-color: rgb(56, 216, 75);
