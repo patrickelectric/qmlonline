@@ -37,6 +37,7 @@ canvas {
     display: flex;
 }
 
+/*
 #separator {
     cursor: col-resize;
     background: rgb(56, 216, 75);
@@ -45,14 +46,16 @@ canvas {
     background-position: center;
     width: 10px;
     height: 100%;
+    */
     /* prevent browser's built-in drag from interfering */
+    /*
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
+}*/
 
 #editor-div {
-    width: 50%;
+    width: 100%;
     height: 100%;
     min-width: 10px;
 }
@@ -74,12 +77,12 @@ canvas {
     border: none;
     margin: 8px 5px;
     outline: none;
-} 
+}
 
 .dropdown-button:before {
     content: '';
     position: absolute;
-    bottom: 7px; 
+    bottom: 7px;
     right: 4px;
     /*border-bottom: 13px solid rgba(47, 47, 50, 0.979); */
     /*border-left: 14px solid rgba(255, 255, 255, 0); */
@@ -89,7 +92,7 @@ canvas {
 .dropdown-button:after {
     content: '';
     position: absolute;
-    top: 7px; 
+    top: 7px;
     left: 4px;
     /*border-top: 13px solid rgba(47, 47, 50, 0.979);*/
     /*border-right: 14px solid rgba(103, 202, 94, 0);*/
@@ -231,23 +234,15 @@ canvas {
     margin: 0;
 }
 
-/* Terminal */
-
 #terminal {
-    position: fixed;
-    bottom: 24px;
-    font-size: 16px;
-    left: 0;
+    font-size: 14px;
     color: white;
     background-color: rgb(36, 38, 49);
-    border: 1px solid rgb(68, 70, 80);
-    width: 48.5%;
-    padding: 0px 5px;
-    height: 8px;
-    min-height: 8px;
-    z-index: 5;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #terminal p {
     margin: 0;
+    width: 100%;
 }

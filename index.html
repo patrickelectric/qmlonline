@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>qmlonline</title>
 </head>
@@ -17,6 +18,8 @@
 </div>
 
 <body onload="init()">
+    <!--Use not released version for splitter event-->
+    <script src="metro.min.js"></script>
 
     <div class="header-row">
         <span class="header-brand-1">QML</span>
@@ -51,9 +54,11 @@
             <svg data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg="" class="github-icon"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
         </div>
     </div>
-    <div class="splitter">
-        <div id="editor-div"></div>
-        <div id="separator"></div>
+    <div id= "main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplit">
+        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="85, 15">
+            <div id="editor-div"></div>
+            <div id="terminal"></div>
+        </div>
         <div id="qml-div">
             <figure style="overflow:visible;" id="qtspinner">
                 <center style="margin-top:1.5em; line-height:150%">
@@ -67,7 +72,7 @@
             <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
         </div>
         <!-- Status Bar -->
-        <div id="status-bar" class="status-bar">
+        <!--div id="status-bar" class="status-bar">
             <p> Status Bar </p>
             <p id="status-bar-line"></p>
             <script type='text/javascript'>
@@ -75,26 +80,19 @@
                     document.getElementById("status-bar-line").innerHTML = `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
                 }
              </script>
-        </div>
+        </div-->
     </div>
-    <!-- Terminal -->
-    <!--div id="terminal">
-        <p>></p>
-    </div>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-       $( function () {
-            $("#terminal").resizable( {
-                handles: 'n' // only resize up
-            }
-            );
-        })
-    </script-->
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
+
+        /*data-on-resize-window*/
+        function resizeSplit(event) {
+            if (event.x % 2) { // decrease the number of events by half
+                qtLoader.resizeCanvasElement(qtcanvas);
+            }
+        }
+
         const examples = getExamples();
         let select = document.getElementById("dropdown-content");
         for (let i in examples) {
@@ -154,7 +152,7 @@
         });
 
         editor.getSelection().on('changeCursor', function() {
-            updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
+            //updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
         })
 
         var qtLoader;
@@ -218,6 +216,14 @@
             });
             qtLoader.loadEmscriptenModule("qmlonline");
 
+            function appendLine(content) {
+                let terminal = document.getElementById("terminal")
+                let element = document.createElement("p");
+                element.innerHTML = '> ' + content
+                terminal.appendChild(element)
+                terminal.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+
             // TODO: Find a better way to set the initial code and wait for the webassembly to start
             var intervalID = setInterval(
                 function () {
@@ -227,8 +233,14 @@
                         Module.printErr = function (text) {
                             console.log(text)
 
+                            // qml message
+                            let match = /qml:\ (.*)/.exec(text)
+                            if (match) {
+                                appendLine(match[1])
+                            }
+
                             //const match = /qrc:\/userItem:(?<line_number>\d+): (?<error_message>.*)/.exec(lines[i])
-                            let match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
+                            match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
 
                             if (match) {
                                 let line_number = match[1]
@@ -274,53 +286,6 @@
                 },
                 100);
         }
-
-        // function is used for dragging and moving
-        function dragElement(element) {
-            var md; // remember mouse down info
-            const first = document.getElementById("editor-div");
-            const statusBar = document.getElementById("status-bar");
-            const second = document.getElementById("qml-div");
-            const qtcanvas = document.getElementById("qtcanvas");
-            //const terminal = document.getElementById("terminal");
-
-            element.onmousedown = onMouseDown;
-
-            function onMouseDown(e) {
-                md = {
-                    e,
-                    offsetLeft: element.offsetLeft,
-                    offsetTop: element.offsetTop,
-                    firstWidth: first.offsetWidth,
-                    secondWidth: second.offsetWidth,
-                    statusBarWidth: statusBar.offsetWidth,
-                    //terminalWidth: statusBar.offsetWidth,
-                };
-                document.onmousemove = onMouseMove;
-                document.onmouseup = () => {
-                    document.onmousemove = document.onmouseup = null;
-                }
-            }
-
-            function onMouseMove(e) {
-                var delta = {
-                    x: e.clientX - md.e.x,
-                    y: e.clientY - md.e.y
-                };
-
-                delta.x = Math.min(Math.max(delta.x, -md.firstWidth), md.secondWidth);
-
-                element.style.left = md.offsetLeft + delta.x + "px";
-                statusBar.style.width = (md.statusBarWidth + delta.x - 10) + "px";
-                //terminal.style.width = (md.terminalWidth + delta.x - 15) + "px";
-                first.style.width = (md.firstWidth + delta.x) + "px";
-                second.style.width = (md.secondWidth - delta.x) + "px";
-                qtcanvas.style.setProperty("width", second.style.width + "px", "!important");
-                qtLoader.resizeCanvasElement(qtcanvas);
-            }
-        }
-
-        dragElement(document.getElementById("separator"));
 
         function share() {
             let string = editor.session.getValue();
