@@ -145,7 +145,7 @@
             }
         })
         editor.getSession().on('change', function () {
-            if (Module.self && document.getElementById("reload-button").style.backgroundColor != "#2F2F32") {
+            if (Module.self) {
                 editor.session.clearAnnotations()
                 Module.self().setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
