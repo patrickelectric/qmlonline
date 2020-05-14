@@ -208,7 +208,6 @@
                 showCanvas: function () {
                     spinner.style.display = 'none';
                     canvas.style.display = 'block';
-                    console.log("what", Module.self)
                     Module.instantiateWasm = function (imports, successCallback) {
                         console.log('instantiateWasm: instantiating asynchronously');
                     };
