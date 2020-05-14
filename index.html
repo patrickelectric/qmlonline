@@ -9,14 +9,6 @@
     <title>qmlonline</title>
 </head>
 
-<div id="overlay" onclick="overlayOff()">
-    <span id="overlay-text">
-        Magic tips:<br>
-        Control+S: To update render while using text editor<br>
-        There is no more tips!
-    </span>
-</div>
-
 <body onload="init()">
     <!--Use not released version for splitter event-->
     <script src="metro.min.js"></script>
@@ -306,11 +298,6 @@
             }
 
         }
-
-        function overlayOff() {
-            document.getElementById("overlay").style.display = "none";
-        }
-        document.getElementById("overlay").style.display = "block";
     </script>
 </body>
 

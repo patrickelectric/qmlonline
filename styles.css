@@ -196,18 +196,6 @@ canvas {
     cursor: pointer;
 }
 
-#overlay-text {
-    color: #fff;
-    display: block;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    top: 30%;
-    position: absolute;
-    line-height: 23pt;
-}
-
 /* Status bar */
 .status-bar {
     display: flex;
