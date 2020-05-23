@@ -37,3 +37,6 @@ examples.files = $$PWD/qml
 examples.path = $$OUT_PWD
 
 COPIES += html examples
+
+OBJECTS_DIR = $$$$OUT_PWD/objects
+MOC_DIR = $$$$OUT_PWD/moc
