@@ -17,6 +17,10 @@ function getExamples() {
             file: "animatedsprite.qml"
         },
         {
+            name: "Animation Easing Type",
+            file: "animation-easing-type.qml"
+        },
+        {
             name: "Binding",
             file: "binding.qml"
         },
@@ -33,8 +37,24 @@ function getExamples() {
             file: "canvasadvanced.qml"
         },
         {
+            name: "Game 1",
+            file: "pong.qml"
+        },
+        {
+            name: "Game 2",
+            file: "snake.qml"
+        },
+        {
+            name: "GridLayout",
+            file: "gridlayout.qml"
+        },
+        {
             name: "Json Model",
             file: "jsonmodel.qml"
+        },
+        {
+            name: "ListModel/ListElement",
+            file: "listmodel.qml"
         },
         {
             name: "Repeater",
@@ -43,6 +63,10 @@ function getExamples() {
         {
             name: "Rotation Animation",
             file: "rotationanimator.qml"
+        },
+        {
+            name: "Search/Regex match",
+            file: "regex-match.qml"
         },
         {
             name: "Sequential Animation",
@@ -59,6 +83,10 @@ function getExamples() {
         {
             name: "Taphandler",
             file: "taphandler.qml"
+        },
+        {
+            name: "Text Format",
+            file: "textformat.qml"
         },
     ]
 }

@@ -1,7 +1,8 @@
 TARGET = qmlonline
 
 CONFIG += \
-    c++14
+    c++14 \
+    file_copies \
 
 QT += \
     bluetooth \
@@ -28,3 +29,11 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
+
+html.files = $$PWD/html/*
+html.path = $$OUT_PWD
+
+examples.files = $$PWD/qml
+examples.path = $$OUT_PWD
+
+COPIES += html examples
