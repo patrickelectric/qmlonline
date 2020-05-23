@@ -9,5 +9,4 @@ Play online with QML, thanks to WebAssembly!
 > You can also check the [desktop version: QHot!](https://github.com/patrickelectric/qhot)!
 
 ## How to build:
-1. `docker run --rm -v ~/.emscripten_cache:/emsdk_portable/.data/cache -v $(pwd)/../:/src/ -u $(id -u):$(id -g) madmanfred/qt-webassembly qmake -o /src/build`
-2. `docker run --rm -v ~/.emscripten_cache:/emsdk_portable/.data/cache -v $(pwd)/../:/src/ -u $(id -u):$(id -g) madmanfred/qt-webassembly make -C /src/build -j14`
+1. `./deploy.sh`
