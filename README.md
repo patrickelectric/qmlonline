@@ -4,9 +4,7 @@
 
 Play online with QML, thanks to WebAssembly!
 
-[CHECK IT HERE!](https://patrickelectric.work/qmlonline/)
-
-> You can also check the [desktop version: QHot!](https://github.com/patrickelectric/qhot)!
+Website: [https://qmlonline.kde.org/](https://qmlonline.kde.org/)
 
 ## How to build:
 1. `./deploy.sh`
