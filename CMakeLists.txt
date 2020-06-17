@@ -17,7 +17,7 @@ include(cmake/FetchQaterial.cmake)
 
 add_executable(QaterialOnline
   src/main.cpp
-  src/util.cpp
+  src/utail.cpp
   src/util.h
   qml/qml.qrc)
 
