@@ -1,6 +1,6 @@
 # QML online
 
-[![Travis Build Status](https://travis-ci.org/patrickelectric/qmlonline.svg?branch=master)](https://travis-ci.org/patrickelectric/qmlonline)
+[![Deploy](https://binary-factory.kde.org/job/Website_qmlonline-kde-org/badge/icon?subject=Deploy)](https://binary-factory.kde.org/job/Website_qmlonline-kde-org/)
 
 Play online with QML, thanks to WebAssembly!
 
