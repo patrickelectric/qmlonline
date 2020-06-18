@@ -49,8 +49,8 @@
         </div>
         <div id="qml-div">
             <figure style="overflow:visible;" id="qtspinner">
-                <center style="margin-top:1.5em; line-height:150%">
-                    <img src="qtlogo.svg" ; width=320; height=200; style="display:block"> </img>
+                <center style="margin-top:1.5em;">
+                    <img id="webasm_load_image"; style="max-height: 400px; object-fit: contain;"> </img>
                     <strong>Qt for WebAssembly: qmlonline</strong>
                     <div id="qtstatus"></div>
                     <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
@@ -299,8 +299,23 @@
                     console.log(`GET Error ${request.status}: ${request.statusText}`);
                 }
             }
-
         }
+
+        (function() {
+            var images = [
+                "https://community.kde.org/images.community/thumb/4/40/Mascot_konqi.png/360px-Mascot_konqi.png",
+                "https://community.kde.org/images.community/thumb/c/ce/Mascot_konqi-dev-kde.png/424px-Mascot_konqi-dev-kde.png",
+                "https://community.kde.org/images.community/thumb/f/fb/Mascot_konqi-app-dev-katie.png/424px-Mascot_konqi-app-dev-katie.png",
+                "https://community.kde.org/images.community/thumb/1/11/Mascot_konqi-dev-qt.png/424px-Mascot_konqi-dev-qt.png",
+                "https://community.kde.org/images.community/thumb/5/50/Mascot_konqi-base-framework.png/526px-Mascot_konqi-base-framework.png",
+                "https://community.kde.org/images.community/thumb/a/af/Mascot_konqi-base-plasma.png/520px-Mascot_konqi-base-plasma.png",
+                "https://community.kde.org/images.community/thumb/7/79/Mascot_konqi-app-dev.png/651px-Mascot_konqi-app-dev.png",
+                "https://community.kde.org/images.community/thumb/f/f4/Mascot_konqi-support-document.png/571px-Mascot_konqi-support-document.png",
+                "https://community.kde.org/images.community/thumb/9/99/Mascot_konqi-app-hardware.png/424px-Mascot_konqi-app-hardware.png",
+            ];
+            var img = document.getElementById("webasm_load_image");
+            img.src = images[Math.floor(Math.random() * images.length)];
+        })();
     </script>
 </body>
 
