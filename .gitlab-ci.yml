@@ -1,6 +1,0 @@
-image: docker:latest
-
-build:
-  script:
-    - deploy.sh
-    - ls build
