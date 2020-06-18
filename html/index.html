@@ -175,6 +175,8 @@
                 } else { // No last session, load the magic of the infinity happiness
                     openExample('rotationanimator.qml')
                 }
+                // Force resize: Fix bug with firefox 77.0.1
+                editor.resize();
             }
 
             var spinner = document.querySelector('#qtspinner');
