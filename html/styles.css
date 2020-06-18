@@ -169,12 +169,12 @@ canvas {
     font-size: 15px;
 }
 
-.github-icon {
-    color: #fff;
+.iconify[data-icon="octicon-repo"] {
+    width: 1.8em;
     height: 1.5em;
     position: absolute;
-    top: calc(var(--header-height) - 1.5em) / 2;
-    right: 10px;
+    right: 0em;
+    top: 0.18em;
 }
 
 .github-button {
