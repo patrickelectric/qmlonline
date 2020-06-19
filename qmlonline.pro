@@ -30,6 +30,8 @@ HEADERS += \
 RESOURCES += \
     resources.qrc
 
+include(3rdparty/kirigami/kirigami.pri)
+
 html.files = $$PWD/html/*
 html.path = $$OUT_PWD
 
