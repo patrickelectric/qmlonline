@@ -31,8 +31,8 @@
             <span class="iconify" data-icon="octicon-repo" data-inline="false"></span>
         </div>
     </div>
-    <div id= "main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplit">
-        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="95, 5" data-min-sizes="18px">
+    <div id= "main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplitY">
+        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="95, 5" data-min-sizes="18px" data-on-resize-split="resizeSplitX">
             <div id="editor-div"></div>
             <div id="editor-bottom">
                 <div id="terminal"></div>
@@ -65,10 +65,16 @@
     <script type='text/javascript'>
 
         /*data-on-resize-window*/
-        function resizeSplit(event) {
+        function resizeSplitY(event) {
             if (event.x % 2) { // decrease the number of events by half
                 qtLoader.resizeCanvasElement(qtcanvas);
             }
+            editor.resize();
+        }
+
+        /* terminal splitter */
+        function resizeSplitX(event) {
+            editor.resize();
         }
 
         const examples = getExamples();
