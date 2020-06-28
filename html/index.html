@@ -27,6 +27,10 @@
             <button onclick="share()" class="dropdown-button">Share</button>
         </div>
 
+        <div class="build-info" style="cursor:pointer">
+            <a id="build-info" href="https://invent.kde.org/webapps/qmlonline" style="color:white"></a>
+        </div>
+
         <div class="github-button" onclick="window.open('https://invent.kde.org/webapps/qmlonline');">
             <span class="iconify" data-icon="octicon-repo" data-inline="false"></span>
         </div>
@@ -127,6 +131,12 @@
         function eraseTerminal() {
             let terminal = document.getElementById("terminal")
             terminal.innerHTML = '';
+        }
+
+        function populateBuildInfo(version) {
+            let buildInfo = document.getElementById("build-info")
+            buildInfo.href = `${version.url}/-/tree/${version.hash}`
+            buildInfo.innerHTML = `Build: ${version.date} - ${version.hash}`
         }
 
         editor.setTheme("ace/theme/dracula");
@@ -280,6 +290,7 @@
                         clearInterval(intervalID);
                         Module.self().setCode(editor.session.getValue())
                         eraseTerminal()
+                        populateBuildInfo(new Module.Version())
                     }
                 },
                 100);
