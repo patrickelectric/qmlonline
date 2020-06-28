@@ -135,7 +135,7 @@
 
         function populateBuildInfo(version) {
             let buildInfo = document.getElementById("build-info")
-            buildInfo.href = `${version.url}/-/tree/${version.hash}`
+            buildInfo.href = `${version.url.replace('.git', '')}/-/tree/${version.hash}`
             buildInfo.innerHTML = `Build: ${version.date} - ${version.hash}`
         }
 
