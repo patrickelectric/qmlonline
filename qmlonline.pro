@@ -23,9 +23,11 @@ QT += \
 SOURCES += \
     src/main.cpp \
     src/util.cpp \
+    src/version.cpp \
 
 HEADERS += \
     src/util.h \
+    src/version.h \
 
 RESOURCES += \
     resources.qrc
