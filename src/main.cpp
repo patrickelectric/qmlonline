@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 
 #include "util.h"
+#include "version.h"
 
 #include "3rdparty/kirigami/src/kirigamiplugin.h"
 
