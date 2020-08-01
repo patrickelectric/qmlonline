@@ -10,7 +10,7 @@
     <title>qmlonline</title>
 </head>
 
-<body onload="init()">
+<body onload>
     <!--Use not released version for splitter event-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/metro/4.3.7/js/metro.min.js"></script>
 
@@ -35,8 +35,9 @@
             <span class="iconify" data-icon="octicon-repo" data-inline="false"></span>
         </div>
     </div>
-    <div id= "main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplitY">
-        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="95, 5" data-min-sizes="18px" data-on-resize-split="resizeSplitX">
+    <div id="main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplitY">
+        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="95, 5" data-min-sizes="18px"
+            data-on-resize-split="resizeSplitX">
             <div id="editor-div"></div>
             <div id="editor-bottom">
                 <div id="terminal"></div>
@@ -45,29 +46,18 @@
                     <p id="status-bar-line"></p>
                     <script type='text/javascript'>
                         function updateStatusBarLineColumnFromCursos(cursor) {
-                            document.getElementById("status-bar-line").innerHTML = `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
+                            document.getElementById("status-bar-line").innerHTML =
+                                `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
                         }
-                     </script>
+                    </script>
                 </div>
             </div>
         </div>
-        <div id="qml-div">
-            <figure style="overflow:visible;" id="qtspinner">
-                <center style="margin-top:1.5em;">
-                    <img id="webasm_load_image"; style="max-height: 400px; object-fit: contain;"> </img>
-                    <strong>Qt for WebAssembly: qmlonline</strong>
-                    <div id="qtstatus"></div>
-                    <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
-                </center>
-            </figure>
-
-            <canvas id="qtcanvas" oncontextmenu="event.preventDefault()" contenteditable="true"></canvas>
-        </div>
+        <iframe id="qtcanvas" style="border-style: none;" src="frame.html" onload="frameLoaded();"></iframe>
     </div>
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
-
         /*data-on-resize-window*/
         function resizeSplitY(event) {
             if (event.x % 2) { // decrease the number of events by half
@@ -96,8 +86,8 @@
         function openExample(file) {
             let content = loadFile(file);
             editor.session.setValue(content);
-            if (Module.self) {
-                Module.self().setCode(content)
+            if (frame) {
+                frame.setCode(content)
                 eraseTerminal()
             }
         }
@@ -111,13 +101,12 @@
         }
     </script>
 
-    <script type="text/javascript" src="qtloader.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
     <script type='text/javascript'>
-        var qtLoader;
+        var frame;
         var editor = ace.edit("editor-div");
 
         function appendLine(content) {
@@ -150,25 +139,23 @@
                 "mac": "Cmd-S"
             },
             exec: function (editor) {
-                Module.self().setCode(editor.session.getValue())
+                frame.setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
                 eraseTerminal()
             }
         })
         editor.getSession().on('change', function () {
-            if (Module.self) {
+            if (frame && frame.setCode) {
                 editor.session.clearAnnotations()
-                Module.self().setCode(editor.session.getValue())
+                frame.setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
                 eraseTerminal()
             }
         });
 
-        editor.getSelection().on('changeCursor', function() {
+        editor.getSelection().on('changeCursor', function () {
             updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
         })
-
-        var qtLoader;
 
         function init() {
             // Get params
@@ -182,10 +169,10 @@
             } else { // We don't
                 // Try to load last session
                 var lastSessionCode = localStorage.getItem("lastSessionCode");
-                if(lastSessionCode) {
+                if (lastSessionCode) {
                     editor.session.setValue(lastSessionCode);
-                    if(Module.self) {
-                        Module.self().setCode(lastSessionCode)
+                    if (frame) {
+                        frame.setCode(lastSessionCode)
                         eraseTerminal()
                     }
                 } else { // No last session, load the magic of the infinity happiness
@@ -195,105 +182,10 @@
                 editor.resize();
             }
 
-            var spinner = document.querySelector('#qtspinner');
-            var canvas = document.querySelector('#qtcanvas');
-            var status = document.querySelector('#qtstatus')
-
-            qtLoader = QtLoader({
-                canvasElements: [canvas],
-                showLoader: function (loaderStatus) {
-                    spinner.style.display = 'block';
-                    canvas.style.display = 'none';
-                    status.innerHTML = loaderStatus + "...";
-                },
-                showError: function (errorText) {
-                    status.innerHTML = errorText;
-                    spinner.style.display = 'block';
-                    canvas.style.display = 'none';
-                },
-                showExit: function () {
-                    status.innerHTML = "Application exit";
-                    if (qtLoader.exitCode !== undefined)
-                        status.innerHTML += " with code " + qtLoader.exitCode;
-                    if (qtLoader.exitText !== undefined)
-                        status.innerHTML += " (" + qtLoader.exitText + ")";
-                    spinner.style.display = 'block';
-                    canvas.style.display = 'none';
-                    console.log("exit", qtLoader.exitCode)
-                },
-                showCanvas: function () {
-                    spinner.style.display = 'none';
-                    canvas.style.display = 'block';
-                    Module.instantiateWasm = function (imports, successCallback) {
-                        console.log('instantiateWasm: instantiating asynchronously');
-                    };
-                },
-            });
-            qtLoader.loadEmscriptenModule("qmlonline");
-
-            // TODO: Find a better way to set the initial code and wait for the webassembly to start
-            var intervalID = setInterval(
-                function () {
-                    console.log("Waiting for webassembly to load...")
-
-                    if (Module && !Module.printErr) {
-                        Module.printErr = function (text) {
-                            console.log(text)
-
-                            // qml message
-                            let match = /qml:\ (.*)/.exec(text)
-                            if (match) {
-                                appendLine(match[1])
-                            }
-
-                            //const match = /qrc:\/userItem:(?<line_number>\d+): (?<error_message>.*)/.exec(lines[i])
-                            match = /qrc:\/userItem:(\d+): (.*)/.exec(text)
-
-                            if (match) {
-                                let line_number = match[1]
-                                let error_message = match[2]
-                                console.log('line only: ' + match)
-
-                                var annotations = editor.session.getAnnotations()
-                                annotations.push({
-                                        row: line_number - 1,
-                                        column: 0,
-                                        text: error_message,
-                                        type: "error"
-                                });
-                                editor.session.setAnnotations(annotations);
-                            }
-
-                            //const match = /qrc:\/userItem:(?<line_number>\d+):(?<column_number>\d+): (?<error_message>.*)/
-                            match = /qrc:\/userItem:(\d+):(\d+): (.*)/.exec(text)
-
-                            if (match) {
-                                let line_number = match[1]
-                                let column_number = match[2]
-                                let error_message = match[3]
-
-                                console.log('line and column: ' + match)
-
-                                var annotations = editor.session.getAnnotations()
-                                annotations.push({
-                                        row: line_number - 1,
-                                        column: column_number,
-                                        text: error_message,
-                                        type: "error"
-                                });
-                                editor.session.setAnnotations(annotations);
-                            }
-                        }
-                    }
-
-                    if (Module.self !== undefined) {
-                        clearInterval(intervalID);
-                        Module.self().setCode(editor.session.getValue())
-                        eraseTerminal()
-                        populateBuildInfo(new Module.Version())
-                    }
-                },
-                100);
+            const buildInfo = frame.buildInfo()
+            if (buildInfo) {
+                populateBuildInfo(buildInfo)
+            }
         }
 
         function share() {
@@ -301,7 +193,8 @@
             let compressed = LZString.compressToEncodedURIComponent(string);
             console.log("Compressed in:", compressed.length / string.length)
 
-            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href.split('?')[0] + "?code=" + encodeURI(compressed)
+            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href.split('?')[0] + "?code=" +
+                encodeURI(compressed)
 
             let request = new XMLHttpRequest();
             request.open('GET', tinyUrl);
@@ -320,21 +213,22 @@
             }
         }
 
-        (function() {
-            var images = [
-                "https://community.kde.org/images.community/thumb/4/40/Mascot_konqi.png/360px-Mascot_konqi.png",
-                "https://community.kde.org/images.community/thumb/c/ce/Mascot_konqi-dev-kde.png/424px-Mascot_konqi-dev-kde.png",
-                "https://community.kde.org/images.community/thumb/f/fb/Mascot_konqi-app-dev-katie.png/424px-Mascot_konqi-app-dev-katie.png",
-                "https://community.kde.org/images.community/thumb/1/11/Mascot_konqi-dev-qt.png/424px-Mascot_konqi-dev-qt.png",
-                "https://community.kde.org/images.community/thumb/5/50/Mascot_konqi-base-framework.png/526px-Mascot_konqi-base-framework.png",
-                "https://community.kde.org/images.community/thumb/a/af/Mascot_konqi-base-plasma.png/520px-Mascot_konqi-base-plasma.png",
-                "https://community.kde.org/images.community/thumb/7/79/Mascot_konqi-app-dev.png/651px-Mascot_konqi-app-dev.png",
-                "https://community.kde.org/images.community/thumb/f/f4/Mascot_konqi-support-document.png/571px-Mascot_konqi-support-document.png",
-                "https://community.kde.org/images.community/thumb/9/99/Mascot_konqi-app-hardware.png/424px-Mascot_konqi-app-hardware.png",
-            ];
-            var img = document.getElementById("webasm_load_image");
-            img.src = images[Math.floor(Math.random() * images.length)];
-        })();
+        function frameLoaded() {
+            frame = document.getElementById("qtcanvas").contentWindow
+            frame.registerCall({
+                posInit: function() {
+                    init()
+                },
+                qmlMessage: function(msg) {
+                    appendLine(msg)
+                },
+                qmlError: function(data) {
+                    var annotations = editor.session.getAnnotations()
+                    annotations.push(data)
+                    editor.session.setAnnotations(annotations)
+                },
+            })
+        }
     </script>
 </body>
 
