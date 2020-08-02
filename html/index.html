@@ -53,24 +53,11 @@
                 </div>
             </div>
         </div>
-        <iframe id="qtcanvas" style="border-style: none;" src="frame.html" onload="frameLoaded();"></iframe>
+        <div id="qmlonline"></div>
     </div>
 
     <script src="examples.js" type="text/javascript" charset="utf-8"></script>
     <script type='text/javascript'>
-        /*data-on-resize-window*/
-        function resizeSplitY(event) {
-            if (event.x % 2) { // decrease the number of events by half
-                qtLoader.resizeCanvasElement(qtcanvas);
-            }
-            editor.resize();
-        }
-
-        /* terminal splitter */
-        function resizeSplitX(event) {
-            editor.resize();
-        }
-
         const examples = getExamples();
         let select = document.getElementById("dropdown-content");
         for (let i in examples) {
@@ -86,10 +73,8 @@
         function openExample(file) {
             let content = loadFile(file);
             editor.session.setValue(content);
-            if (frame) {
-                frame.setCode(content)
-                eraseTerminal()
-            }
+            qml.setCode(content)
+            eraseTerminal()
         }
 
         function loadFile(filePath) {
@@ -105,7 +90,43 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
+
+    <!--qml-->
+    <script type="text/javascript" src="qtloader.js"></script>
+    <script type="text/javascript" src="qml.js"></script>
+    <!--qml-->
+
     <script type='text/javascript'>
+        const qml = new QmlOnline("qmlonline")
+        qml.registerCall({
+            posInit: function() {
+                init()
+            },
+            qmlMessage: function(msg) {
+                appendLine(msg)
+            },
+            qmlError: function(data) {
+                var annotations = editor.session.getAnnotations()
+                annotations.push(data)
+                editor.session.setAnnotations(annotations)
+            },
+        })
+        qml.init()
+
+        var editor = ace.edit("editor-div");
+        /*data-on-resize-window*/
+        function resizeSplitY(event) {
+            if (event.x % 2) { // decrease the number of events by half
+                qml.resizeCanvas()
+            }
+            editor.resize();
+        }
+
+        /* terminal splitter */
+        function resizeSplitX(event) {
+            editor.resize();
+        }
+
         var frame;
         var editor = ace.edit("editor-div");
 
@@ -139,18 +160,16 @@
                 "mac": "Cmd-S"
             },
             exec: function (editor) {
-                frame.setCode(editor.session.getValue())
+                qml.setCode(editor.session.getValue())
                 localStorage.setItem("lastSessionCode", editor.session.getValue());
                 eraseTerminal()
             }
         })
         editor.getSession().on('change', function () {
-            if (frame && frame.setCode) {
-                editor.session.clearAnnotations()
-                frame.setCode(editor.session.getValue())
-                localStorage.setItem("lastSessionCode", editor.session.getValue());
-                eraseTerminal()
-            }
+            editor.session.clearAnnotations()
+            qml.setCode(editor.session.getValue())
+            localStorage.setItem("lastSessionCode", editor.session.getValue());
+            eraseTerminal()
         });
 
         editor.getSelection().on('changeCursor', function () {
@@ -171,10 +190,8 @@
                 var lastSessionCode = localStorage.getItem("lastSessionCode");
                 if (lastSessionCode) {
                     editor.session.setValue(lastSessionCode);
-                    if (frame) {
-                        frame.setCode(lastSessionCode)
-                        eraseTerminal()
-                    }
+                    qml.setCode(lastSessionCode)
+                    eraseTerminal()
                 } else { // No last session, load the magic of the infinity happiness
                     openExample('rotationanimator.qml')
                 }
@@ -182,7 +199,7 @@
                 editor.resize();
             }
 
-            const buildInfo = frame.buildInfo()
+            const buildInfo = qml.buildInfo()
             if (buildInfo) {
                 populateBuildInfo(buildInfo)
             }
@@ -211,23 +228,6 @@
                     console.log(`GET Error ${request.status}: ${request.statusText}`);
                 }
             }
-        }
-
-        function frameLoaded() {
-            frame = document.getElementById("qtcanvas").contentWindow
-            frame.registerCall({
-                posInit: function() {
-                    init()
-                },
-                qmlMessage: function(msg) {
-                    appendLine(msg)
-                },
-                qmlError: function(data) {
-                    var annotations = editor.session.getAnnotations()
-                    annotations.push(data)
-                    editor.session.setAnnotations(annotations)
-                },
-            })
         }
     </script>
 </body>
