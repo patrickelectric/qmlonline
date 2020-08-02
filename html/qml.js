@@ -103,6 +103,7 @@ class QmlOnline {
         const self = this
         var qtLoader
         qtLoader = QtLoader({
+            path: "https://qmlonline.kde.org/",
             canvasElements: [self.canvas],
             showLoader: function (loaderStatus) {
                 self.figure.style.display = 'block';
