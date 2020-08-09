@@ -71,8 +71,8 @@ class QmlOnline {
         */
         this.canvas = document.createElement("canvas")
         this.canvas.id = "qt-canvas"
-        this.canvas.oncontextmenu = "event.preventDefault()"
-        this.canvas.contenteditable = "true"
+        this.canvas.setAttribute("oncontextmenu", "event.preventDefault()")
+        this.canvas.setAttribute("contenteditable", "true")
         this.canvas.style = "height: 100%; width: 100%;"
         this.div.appendChild(this.canvas)
 
