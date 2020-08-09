@@ -18,6 +18,7 @@ QT += \
     svg \
     widgets \
     xml \
+    xmlpatterns \
     texttospeech
 
 SOURCES += \
