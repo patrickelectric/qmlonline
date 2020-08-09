@@ -183,7 +183,19 @@ canvas {
     margin-top: 0.2em;
     font-size: 0.9em;
     top: 0em;
-    margin-left: calc(50% - 5em);
+    margin-left: calc(50% - 8em);
+    cursor: pointer;
+    position: fixed;
+    width: 15em;
+}
+
+.qt-info {
+    text-align: center;
+    height: 1.5em;
+    margin-top: 0.2em;
+    font-size: 0.9em;
+    top: 0em;
+    margin-left: calc(75% - 8em);
     cursor: pointer;
     position: fixed;
     width: 15em;

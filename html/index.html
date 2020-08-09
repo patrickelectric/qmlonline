@@ -47,6 +47,10 @@
             <a id="build-info" target="_blank" href="https://invent.kde.org/webapps/qmlonline" style="color:white"></a>
         </div>
 
+        <div class="qt-info" style="cursor:pointer">
+            <a id="qt-info" target="_blank" style="color:white"></a>
+        </div>
+
         <div class="github-button" onclick="window.open('https://invent.kde.org/webapps/qmlonline');">
             <span class="iconify" data-icon="octicon-repo" data-inline="false"></span>
         </div>
@@ -163,6 +167,12 @@
             let buildInfo = document.getElementById("build-info")
             buildInfo.href = `${version.url.replace('.git', '')}/-/tree/${version.hash}`
             buildInfo.innerHTML = `Build: ${version.date} - ${version.hash}`
+
+            console.log(`Running Qt ${version.qtVersion}`)
+            let qtInfo = document.getElementById("qt-info")
+            let qtMajorMinor = version.qtVersion.split('.').slice(0, 2).join('.')
+            qtInfo.setAttribute("href", `https://wiki.qt.io/Qt_${qtMajorMinor}_Release`)
+            qtInfo.innerHTML = `Qt ${version.qtVersion}`
         }
 
         editor.setTheme("ace/theme/dracula");
