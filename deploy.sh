@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DOCKER_IMAGE=madmanfred/qt-webassembly
+DOCKER_IMAGE=madmanfred/qt-webassembly:qt5.15-em1.39.10-remoteobjects
 EMS_CACHE=$HOME/.emscripten_cache
 SOURCE_DIR=$PWD
 
