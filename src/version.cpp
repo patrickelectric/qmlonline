@@ -11,7 +11,8 @@ EMSCRIPTEN_BINDINGS(version) {
         .constructor<>()
         .property("hash", &Version::hash)
         .property("date", &Version::date)
-        .property("url", &Version::url);
+        .property("url", &Version::url)
+        .property("qtVersion", &Version::qtVersion);
 }
 
 #endif
