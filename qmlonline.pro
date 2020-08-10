@@ -36,7 +36,7 @@ RESOURCES += \
 # Clone or update kirigami repository
 KIRIGAMI_TAG = v5.70.0
 KIRIGAMI_DIR = 3rdparty/kirigami
-exists($$(KIRIGAMI_DIR)) {
+exists($$KIRIGAMI_DIR) {
     $$system(git --git-dir=$$_PRO_FILE_PWD_/$$KIRIGAMI_DIR/.git fetch)
     $$system(git --git-dir=$$_PRO_FILE_PWD_/$$KIRIGAMI_DIR/.git checkout $$KIRIGAMI_TAG)
 } else {
