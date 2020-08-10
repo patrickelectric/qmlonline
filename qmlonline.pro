@@ -44,6 +44,16 @@ exists($$KIRIGAMI_DIR) {
 }
 include(3rdparty/kirigami/kirigami.pri)
 
+# Clone or update breeze-icons repository
+BREEZE_TAG = v5.70.0
+BREEZE_DIR = 3rdparty/breeze-icons
+exists($$BREEZE_DIR) {
+    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$BREEZE_DIR/.git fetch --tags)
+    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$BREEZE_DIR/.git checkout $$BREEZE_TAG)
+} else {
+    $$system(git clone -b $$BREEZE_TAG https://github.com/KDE/breeze-icons $$BREEZE_DIR)
+}
+
 html.files = $$PWD/html/*
 html.path = $$OUT_PWD
 
