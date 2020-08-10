@@ -63,7 +63,7 @@ canvas {
     min-width: 10px;
 }
 
-#qtcanvas {
+#qmlonline {
     height: calc(100% - var(--header-height));
 }
 
