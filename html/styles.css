@@ -139,12 +139,9 @@ canvas {
 .dropdown:hover .dropdown-content {
     flex-flow: row wrap;
     justify-content: space-between;
-    align-items: center;
     width: 600px;
     height: auto;
-    position: absolute;
     display: flex;
-    position: absolute;
     z-index: 100
 }
 

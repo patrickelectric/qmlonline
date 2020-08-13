@@ -80,14 +80,34 @@
     <script type='text/javascript'>
         const examples = getExamples();
         let select = document.getElementById("dropdown-content");
-        for (let i in examples) {
-            const opt = examples[i];
-            let element = document.createElement("a");
-            element.textContent = opt.name;
-            element.value = opt.name;
-            element.href = "javascript:openExample('" + opt.file + "')";
-            element.alt = opt.file;
-            select.appendChild(element);
+        for (let example_type in examples) {
+            const examples_of_type = examples[example_type];
+            console.log(`opt ${example_type}, ${examples_of_type}`)
+
+            const div = document.createElement("div")
+            div.className = "cell-3"
+            select.appendChild(div);
+
+            const h4 = document.createElement("h4")
+            h4.innerHTML = example_type
+            div.appendChild(h4)
+
+            const ul = document.createElement("ul")
+            ul.className = "unstyled-list pl-0"
+            div.appendChild(ul)
+
+            for (let i = 0; i < examples_of_type.length; i++) {
+                const content = examples_of_type[i]
+
+                const li = document.createElement("li");
+                ul.appendChild(li)
+
+                const a = document.createElement("a");
+                a.alt = content.file
+                a.href = "javascript:openExample('" + content.file + "')"
+                a.innerHTML = content.name
+                li.appendChild(a)
+            }
         }
 
         function openExample(file) {
