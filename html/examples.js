@@ -100,5 +100,19 @@ function getExamples() {
                 file: "shadereffect.qml"
             },
         ],
+        Kirigami: [
+            {
+                name: "Footer",
+                file: "kirigami-footer.qml"
+            },
+            {
+                name: "Push, pop, clear",
+                file: "kirigami-pushpopclear.qml"
+            },
+            {
+                name: "Simple chat",
+                file: "kirigami-simpleChatApp.qml"
+            },
+        ],
     }
 }
