@@ -116,6 +116,7 @@ canvas {
     padding-left: 1em;
     z-index: 1;
     border-radius: 0.5em;
+    flex-flow: row wrap;
 }
 
 /* Links inside the dropdown */
@@ -134,10 +135,6 @@ canvas {
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-    flex-flow: row wrap;
-    justify-content: space-between;
-    width: 600px;
-    height: auto;
     display: flex;
     z-index: 100
 }
