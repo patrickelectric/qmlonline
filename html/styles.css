@@ -27,7 +27,7 @@ canvas {
 }
 
 :root{
-    --header-height: 30px;
+    --header-height: 2em;
 }
 
 .header-row {
