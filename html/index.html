@@ -127,6 +127,7 @@
     </script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
@@ -153,6 +154,8 @@
         })
         qml.init()
 
+        /* trigger extension */
+        ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor-div");
         /*data-on-resize-window*/
         function resizeSplitY(event) {
@@ -197,8 +200,13 @@
 
         editor.setTheme("ace/theme/dracula");
         editor.session.setMode("ace/mode/qml");
-        editor.setOption("showInvisibles", true)
-        editor.setOption("useWorker", false); // Avoid problems with syntax check
+        editor.setOptions({
+            showInvisibles: true,
+            useWorker: false, // Avoid problems with syntax check
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true,
+        })
         editor.commands.addCommand({
             name: 'save',
             bindKey: {
