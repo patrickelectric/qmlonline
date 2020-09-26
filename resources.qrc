@@ -2,4 +2,33 @@
     <qresource prefix="/">
         <file alias="main.qml">qml/main.qml</file>
     </qresource>
+    <qresource prefix="/images">
+        <file alias="konqi-1.png">resources/konqi-1.png</file>
+        <file alias="konqi-10.png">resources/konqi-10.png</file>
+        <file alias="konqi-11.png">resources/konqi-11.png</file>
+        <file alias="konqi-12.png">resources/konqi-12.png</file>
+        <file alias="konqi-13.png">resources/konqi-13.png</file>
+        <file alias="konqi-14.png">resources/konqi-14.png</file>
+        <file alias="konqi-15.png">resources/konqi-15.png</file>
+        <file alias="konqi-16.png">resources/konqi-16.png</file>
+        <file alias="konqi-17.png">resources/konqi-17.png</file>
+        <file alias="konqi-18.png">resources/konqi-18.png</file>
+        <file alias="konqi-19.png">resources/konqi-19.png</file>
+        <file alias="konqi-2.png">resources/konqi-2.png</file>
+        <file alias="konqi-20.png">resources/konqi-20.png</file>
+        <file alias="konqi-21.png">resources/konqi-21.png</file>
+        <file alias="konqi-22.png">resources/konqi-22.png</file>
+        <file alias="konqi-23.png">resources/konqi-23.png</file>
+        <file alias="konqi-24.png">resources/konqi-24.png</file>
+        <file alias="konqi-25.png">resources/konqi-25.png</file>
+        <file alias="konqi-26.png">resources/konqi-26.png</file>
+        <file alias="konqi-27.png">resources/konqi-27.png</file>
+        <file alias="konqi-3.png">resources/konqi-3.png</file>
+        <file alias="konqi-4.png">resources/konqi-4.png</file>
+        <file alias="konqi-5.png">resources/konqi-5.png</file>
+        <file alias="konqi-6.png">resources/konqi-6.png</file>
+        <file alias="konqi-7.png">resources/konqi-7.png</file>
+        <file alias="konqi-8.png">resources/konqi-8.png</file>
+        <file alias="konqi-9.png">resources/konqi-9.png</file>
+    </qresource>
 </RCC>
