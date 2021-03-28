@@ -67,6 +67,7 @@
                 <div id="terminal"></div>
                 <div id="status-bar" class="status-bar">
                     <p> Status Bar </p>
+                    <p> Ctrl+Alt+h for shortcuts </p>
                     <p id="status-bar-line"></p>
                     <script type='text/javascript'>
                         function updateStatusBarLineColumnFromCursos(cursor) {
@@ -133,6 +134,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-beautify.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-keybinding_menu.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
@@ -232,6 +234,19 @@
             },
             exec: function () {
                 format();
+            }
+        })
+        editor.commands.addCommand({
+            name: "shortcuts",
+            bindKey: {
+                win: "Ctrl-Alt-h",
+                "mac": "Command-Alt-h"
+            },
+            exec: function(editor) {
+                ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+                    module.init(editor);
+                    editor.showKeyboardShortcuts()
+                })
             }
         })
         editor.getSession().on('change', function () {
