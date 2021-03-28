@@ -40,6 +40,10 @@
         </div>
 
         <div class="dropdown" style="cursor:pointer">
+            <button onclick="format()" class="dropdown-button">Format</button>
+        </div>
+
+        <div class="dropdown" style="cursor:pointer">
             <button onclick="share()" class="dropdown-button">Share</button>
         </div>
 
@@ -127,6 +131,7 @@
     </script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-beautify.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
@@ -219,6 +224,16 @@
                 eraseTerminal()
             }
         })
+        editor.commands.addCommand({
+            name: 'format',
+            bindKey: {
+                win: "Ctrl-Shift-F",
+                "mac": "Cmd-Shift-F"
+            },
+            exec: function () {
+                format();
+            }
+        })
         editor.getSession().on('change', function () {
             editor.session.clearAnnotations()
             qml.setCode(editor.session.getValue())
@@ -260,6 +275,13 @@
 
             // Resize editor
             resizeSplitX()
+        }
+
+        function format() {
+            let cursorPosition = editor.selection.getCursor();
+            var beautify = ace.require("ace/ext/beautify");
+            beautify.beautify(editor.session);
+            editor.moveCursorTo(cursorPosition.row, cursorPosition.column);
         }
 
         function share() {
