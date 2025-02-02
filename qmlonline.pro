@@ -5,10 +5,10 @@ CONFIG += \
     file_copies \
 
 QT += \
-    bluetooth \
-    charts \
+    #bluetooth \
+    #charts \
     gui \
-    multimedia \
+    #multimedia \
     network \
     opengl \
     printsupport \
@@ -18,8 +18,8 @@ QT += \
     svg \
     widgets \
     xml \
-    xmlpatterns \
-    texttospeech
+    #xmlpatterns \
+    #texttospeech
 
 SOURCES += \
     src/main.cpp \
@@ -32,27 +32,6 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
-
-# Clone or update kirigami repository
-KIRIGAMI_TAG = v5.70.0
-KIRIGAMI_DIR = 3rdparty/kirigami
-exists($$KIRIGAMI_DIR) {
-    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$KIRIGAMI_DIR/.git fetch --tags)
-    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$KIRIGAMI_DIR/.git checkout $$KIRIGAMI_TAG)
-} else {
-    $$system(git clone -b $$KIRIGAMI_TAG https://github.com/KDE/kirigami $$KIRIGAMI_DIR)
-}
-include(3rdparty/kirigami/kirigami.pri)
-
-# Clone or update breeze-icons repository
-BREEZE_TAG = v5.70.0
-BREEZE_DIR = 3rdparty/breeze-icons
-exists($$BREEZE_DIR) {
-    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$BREEZE_DIR/.git fetch --tags)
-    $$system(git --git-dir=$$_PRO_FILE_PWD_/$$BREEZE_DIR/.git checkout $$BREEZE_TAG)
-} else {
-    $$system(git clone -b $$BREEZE_TAG https://github.com/KDE/breeze-icons $$BREEZE_DIR)
-}
 
 html.files = $$PWD/html/*
 html.path = $$OUT_PWD

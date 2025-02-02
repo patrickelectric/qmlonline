@@ -1,15 +1,15 @@
 #!/bin/sh
 
-DOCKER_IMAGE=madmanfred/qt-webassembly:qt5.15-em1.39.10-remoteobjects
+DOCKER_IMAGE=stateoftheartio/qt6:6.6-wasm-aqt
 EMS_CACHE=$HOME/.emscripten_cache
 SOURCE_DIR=$PWD
 
-DOCKER_COMMAND="docker run --rm -v $EMS_CACHE:/emsdk_portable/.data/cache -v $SOURCE_DIR/:/src/ -u $(id -u):$(id -g) $DOCKER_IMAGE"
+DOCKER_COMMAND="docker run --rm -v $EMS_CACHE:/emsdk_portable/.data/cache -v $SOURCE_DIR/:/home/user/project:ro -u $(id -u):$(id -g) $DOCKER_IMAGE"
 
 # Build
 mkdir -p build
-$DOCKER_COMMAND qmake -o /src/build CONFIG+=release
-$DOCKER_COMMAND make -C /src/build
+$DOCKER_COMMAND sh -c "qmake6 -o /src/build CONFIG+=release"
+$DOCKER_COMMAND sh -c "make -C /src/build"
 
 # Remove intermediary files
 rm -rf build/{moc,objects,*.cpp}
