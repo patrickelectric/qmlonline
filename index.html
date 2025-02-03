@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+    <title>qmlonline</title>
+    <style>
+        /* Make the html body cover the entire (visual) viewport with no scroll bars. */
+        html, body { padding: 0; margin: 0; overflow: hidden; height: 100% }
+        #screen { width: 100%; height: 100%; }
+      </style>
+</head>
+
+<body>
+    <!--Use not released version for splitter event-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/metro/4.3.7/js/metro.min.js"></script>
+
+    <div class="header-row">
+        <span class="header-brand-1">QML</span>
+        <span class="header-brand-2">Online</span>
+
+        <div class="dropdown">
+            <button class="dropdown-button">Examples</button>
+            <div id="dropdown-content" class="dropdown-content"></div>
+        </div>
+
+        <div class="dropdown" style="cursor:pointer">
+            <button onclick="format()" class="dropdown-button">Format</button>
+        </div>
+
+        <div class="dropdown" style="cursor:pointer">
+            <button onclick="share()" class="dropdown-button">Share</button>
+        </div>
+
+        <div class="build-info" style="cursor:pointer">
+            <a id="build-info" target="_blank" href="https://github.com/patrickelectric/qmlonline" style="color:white"></a>
+        </div>
+
+        <div class="qt-info" style="cursor:pointer">
+            <a id="qt-info" target="_blank" style="color:white"></a>
+        </div>
+
+        <div class="github-button" onclick="window.open('https://github.com/patrickelectric/qmlonline');">
+            <span class="iconify" data-icon="octicon-repo" data-inline="false"></span>
+        </div>
+    </div>
+    <div id="main-div" data-role="splitter" class="h-100" data-on-resize-split="resizeSplitY">
+        <div data-role="splitter" data-split-mode="vertical" data-split-sizes="95, 5" data-min-sizes="18px"
+            data-on-resize-split="resizeSplitX">
+            <div id="editor-div"></div>
+            <div id="editor-bottom">
+                <div id="terminal"></div>
+                <div id="status-bar" class="status-bar">
+                    <p> Status Bar </p>
+                    <p> Ctrl+Alt+h for shortcuts </p>
+                    <p id="status-bar-line"></p>
+                    <script type='text/javascript'>
+                        function updateStatusBarLineColumnFromCursos(cursor) {
+                            document.getElementById("status-bar-line").innerHTML =
+                                `Ln ${cursor.row + 1}, Col ${cursor.column + 1}`
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+        <figure style="overflow:visible;" id="qtspinner">
+            <center style="margin-top:1.5em; line-height:150%">
+              <img src="qtlogo.svg" width="320" height="200" style="display:block"></img>
+              <strong>Qt for WebAssembly: qmlonline</strong>
+              <div id="qtstatus">Oi</div>
+              <noscript>JavaScript is disabled. Please enable JavaScript to use this application.</noscript>
+            </center>
+          </figure>
+        <div id="qmlonline"></div>
+    </div>
+
+    <script type="text/javascript">
+        console.log("init")
+        async function init()
+        {
+            console.log("init2")
+            const spinner = document.querySelector('#qtspinner');
+            const screen = document.querySelector('#qmlonline');
+            const status = document.querySelector('#qtstatus');
+
+            const showUi = (ui) => {
+                [spinner, screen].forEach(element => element.style.display = 'none');
+                if (screen === ui)
+                    screen.style.position = 'default';
+                ui.style.display = 'block';
+            }
+
+            try {
+                showUi(spinner);
+                status.innerHTML = 'Loading...';
+
+                window.qml = await qtLoad({
+                    qt: {
+                        onLoaded: () => showUi(screen),
+                        onExit: exitData =>
+                        {
+                            status.innerHTML = 'Application exit';
+                            status.innerHTML +=
+                                exitData.code !== undefined ? ` with code ${exitData.code}` : '';
+                            status.innerHTML +=
+                                exitData.text !== undefined ? ` (${exitData.text})` : '';
+                            showUi(spinner);
+                        },
+                        entryFunction: window.qmlonline_entry,
+                        containerElements: [screen],
+
+                    }
+                });
+                console.log(window.qml)
+                console.log(new window.qml.Version().date)
+                console.log(window.qml.self())
+                console.log(window.qml.self().buildInfo)
+            } catch (e) {
+                console.error(e);
+                console.error(e.stack);
+            }
+        }
+        window.addEventListener('load', init)
+    </script>
+
+    <script src="examples.js" type="text/javascript" charset="utf-8"></script>
+    <script type='text/javascript'>
+        const examples = getExamples();
+        let select = document.getElementById("dropdown-content");
+        for (let example_type in examples) {
+            const examples_of_type = examples[example_type];
+            console.log(`opt ${example_type}, ${examples_of_type}`)
+
+            const div = document.createElement("div")
+            div.className = "cell-3"
+            select.appendChild(div);
+
+            const h4 = document.createElement("h4")
+            h4.innerHTML = example_type
+            div.appendChild(h4)
+
+            const ul = document.createElement("ul")
+            ul.className = "unstyled-list pl-0"
+            div.appendChild(ul)
+
+            for (let i = 0; i < examples_of_type.length; i++) {
+                const content = examples_of_type[i]
+
+                const li = document.createElement("li");
+                ul.appendChild(li)
+
+                const a = document.createElement("a");
+                a.alt = content.file
+                a.href = "javascript:openExample('" + content.file + "')"
+                a.innerHTML = content.name
+                li.appendChild(a)
+            }
+        }
+
+        function openExample(file) {
+            let content = loadFile(file);
+            editor.session.setValue(content);
+            // qml.setCode(content)
+            eraseTerminal()
+        }
+
+        function loadFile(filePath) {
+            //TODO: use https://xhr.spec.whatwg.org/
+            let request = new XMLHttpRequest();
+            request.open("GET", "qml/examples/" + filePath, false);
+            request.send();
+            return request.status === 200 ? request.responseText : "";
+        }
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-beautify.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-language_tools.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ext-keybinding_menu.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/theme-dracula.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/mode-qml.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.js"></script>
+
+    <!--qml-->
+    <script src="qmlonline.js"></script>
+    <script type="text/javascript" src="qtloader.js"></script>
+    <!--script type="text/javascript" src="qml.js"></script-->
+    <!--qml-->
+
+    <script type='text/javascript'>
+
+        /*
+        const qml = new QmlOnline("qmlonline")
+        qml.registerCall({
+            posInit: function() {
+                init()
+            },
+            qmlMessage: function(msg) {
+                appendLine(msg)
+            },
+            qmlError: function(data) {
+                var annotations = editor.session.getAnnotations()
+                annotations.push(data)
+                editor.session.setAnnotations(annotations)
+            },
+        })
+        qml.init()
+        */
+
+        /* trigger extension */
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("editor-div");
+        /*data-on-resize-window*/
+        function resizeSplitY(event) {
+            if (event.x % 2) { // decrease the number of events by half
+                // window.qml.qtResizeContainerElement(true)
+            }
+            editor.resize();
+        }
+
+        /* terminal splitter */
+        function resizeSplitX(event) {
+            editor.resize();
+        }
+
+        var frame;
+        var editor = ace.edit("editor-div");
+
+        function appendLine(content) {
+            let terminal = document.getElementById("terminal")
+            let element = document.createElement("p");
+            element.innerHTML = '> ' + content
+            terminal.appendChild(element)
+            terminal.scroll(0, element.offsetTop);
+        }
+
+        function eraseTerminal() {
+            let terminal = document.getElementById("terminal")
+            terminal.innerHTML = '';
+        }
+
+        function populateBuildInfo(version) {
+            let buildInfo = document.getElementById("build-info")
+            buildInfo.href = `${version.url.replace('.git', '')}/-/tree/${version.hash}`
+            buildInfo.innerHTML = `Build: ${version.date} - ${version.hash}`
+
+            console.log(`Running Qt ${version.qtVersion}`)
+            let qtInfo = document.getElementById("qt-info")
+            let qtMajorMinor = version.qtVersion.split('.').slice(0, 2).join('.')
+            qtInfo.setAttribute("href", `https://wiki.qt.io/Qt_${qtMajorMinor}_Release`)
+            qtInfo.innerHTML = `Qt ${version.qtVersion}`
+        }
+
+        editor.setTheme("ace/theme/dracula");
+        editor.session.setMode("ace/mode/qml");
+        editor.setOptions({
+            showInvisibles: true,
+            useWorker: false, // Avoid problems with syntax check
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true,
+        })
+        editor.commands.addCommand({
+            name: 'save',
+            bindKey: {
+                win: "Ctrl-S",
+                "mac": "Cmd-S"
+            },
+            exec: function (editor) {
+                window.qml.self().setCode(editor.session.getValue())
+                localStorage.setItem("lastSessionCode", editor.session.getValue());
+                eraseTerminal()
+            }
+        })
+        editor.commands.addCommand({
+            name: 'format',
+            bindKey: {
+                win: "Ctrl-Shift-F",
+                "mac": "Cmd-Shift-F"
+            },
+            exec: function () {
+                format();
+            }
+        })
+        editor.commands.addCommand({
+            name: "shortcuts",
+            bindKey: {
+                win: "Ctrl-Alt-h",
+                "mac": "Command-Alt-h"
+            },
+            exec: function(editor) {
+                ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+                    module.init(editor);
+                    editor.showKeyboardShortcuts()
+                })
+            }
+        })
+        editor.getSession().on('change', function () {
+            editor.session.clearAnnotations()
+            window.qml.self().setCode(editor.session.getValue())
+            localStorage.setItem("lastSessionCode", editor.session.getValue());
+            eraseTerminal()
+        });
+
+        editor.getSelection().on('changeCursor', function () {
+            updateStatusBarLineColumnFromCursos(editor.selection.getCursor())
+        })
+
+        function init() {
+            // Get params
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Check for code in param
+            const codeParam = urlParams.get('code');
+            if (codeParam) { // We do have code!
+                decodeCodePara = LZString.decompressFromEncodedURIComponent(codeParam);
+                editor.session.setValue(decodeCodePara)
+            } else { // We don't
+                // Try to load last session
+                var lastSessionCode = localStorage.getItem("lastSessionCode");
+                if (lastSessionCode) {
+                    editor.session.setValue(lastSessionCode);
+                    window.qml.self().setCode(lastSessionCode)
+                    eraseTerminal()
+                } else { // No last session, load the magic of the infinity happiness
+                    openExample('rotationanimator.qml')
+                }
+                // Force resize: Fix bug with firefox 77.0.1
+                editor.resize();
+            }
+
+            const buildInfo = new window.qml.Version()
+            console.log(buildInfo)
+            if (buildInfo) {
+                populateBuildInfo(buildInfo)
+            }
+
+            // Resize editor
+            resizeSplitX()
+        }
+        console.log("potato")
+        setTimeout(init, 1000);
+
+        function format() {
+            let cursorPosition = editor.selection.getCursor();
+            var beautify = ace.require("ace/ext/beautify");
+            beautify.beautify(editor.session);
+            editor.moveCursorTo(cursorPosition.row, cursorPosition.column);
+        }
+
+        function share() {
+            let string = editor.session.getValue();
+            let compressed = LZString.compressToEncodedURIComponent(string);
+            console.log("Compressed in:", compressed.length / string.length)
+
+            let tinyUrl = "https://tinyurl.com/api-create.php\?url\=" + window.location.href.split('?')[0] + "?code=" +
+                encodeURI(compressed)
+
+            let request = new XMLHttpRequest();
+            request.open('GET', tinyUrl);
+            // TODO: Only for debug, remove after github pages test
+            open(tinyUrl)
+            request.send();
+            request.onload = function () {
+                if (request.status == 200) {
+                    console.log(`Get OK ${request.response}`)
+                    var popup = document.getElementById("myPopup");
+                    popup.value = request.response
+                    popup.classList.toggle("show");
+                } else {
+                    console.log(`GET Error ${request.status}: ${request.statusText}`);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

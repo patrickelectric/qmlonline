@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600&display=swap');
+
+html,
+body {
+    font-family: "Titillium Web",sans-serif;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%
+}
+
+/* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+canvas {
+    border: 0px none;
+    background-color: white;
+    height: 100%;
+    width: 100%;
+}
+
+/* The content editable property is set to true for the canvas in order to support
+         clipboard events. Hide the resulting focus frame and set the cursor back to
+         the default cursor. */
+canvas {
+    outline: 0px solid transparent;
+    caret-color: transparent;
+    cursor: default
+}
+
+:root{
+    --header-height: 2.5em;
+}
+
+.header-row {
+    background: #2f2f32;
+    height: var(--header-height);
+}
+
+.splitter {
+    width: 100%;
+    height: calc(100% - var(--header-height));
+    display: flex;
+}
+
+.splitter > .gutter {
+    background-color: rgba(30, 30, 30, 0.979);
+    border: 0px;
+}
+
+.splitter > .gutter::before {
+    background-color: rgba(50, 187, 16, 0.5);
+}
+
+#editor-div {
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+
+#qml-div {
+    background-color: #eee;
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+
+#qmlonline {
+    height: calc(100% - var(--header-height));
+}
+
+/* Dropdown Button */
+ .dropdown-button {
+    background-color: rgb(56, 216, 75);
+    color: white;
+    padding: .2rem 1rem;
+    font-size: 16px;
+    font-family: "Titillium Web",sans-serif;
+    font-weight: bold;
+    border: none;
+    margin: 4px 5px;
+    height: auto;
+    outline: none;
+}
+
+.dropdown-button:before {
+    content: '';
+    position: absolute;
+    bottom: 7px;
+    right: 4px;
+    /*border-bottom: 13px solid rgba(47, 47, 50, 0.979); */
+    /*border-left: 14px solid rgba(255, 255, 255, 0); */
+    width: 0;
+}
+
+.dropdown-button:after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 4px;
+    /*border-top: 13px solid rgba(47, 47, 50, 0.979);*/
+    /*border-right: 14px solid rgba(103, 202, 94, 0);*/
+    width: 0;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 50em;
+    padding-left: 1em;
+    z-index: 1;
+    border-radius: 0.5em;
+    flex-flow: row wrap;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    width: 240px;
+    height: auto;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    color: #3ca540;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: flex;
+    z-index: 100
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropdown-button {
+    background-color: #3e8e41;
+}
+
+.header-brand-1 {
+    color: #fff;
+    line-height: 1.15em;
+    margin-left: 1em;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: "Titillium Web",sans-serif;
+}
+
+.header-brand-2 {
+    color: #fff;
+    font-family: "Titillium Web",sans-serif;
+    margin-right: 1em;
+    font-size: 15px;
+}
+
+.iconify[data-icon="octicon-repo"] {
+    width: 1.8em;
+    height: 1.5em;
+    position: absolute;
+    right: 0em;
+    top: 0.18em;
+}
+
+.build-info {
+    text-align: center;
+    height: 1.5em;
+    margin-top: 0.2em;
+    font-size: 0.9em;
+    top: 0em;
+    margin-left: calc(50% - 8em);
+    cursor: pointer;
+    position: fixed;
+    width: 15em;
+}
+
+.qt-info {
+    text-align: center;
+    height: 1.5em;
+    margin-top: 0.2em;
+    font-size: 0.9em;
+    top: 0em;
+    margin-left: calc(75% - 8em);
+    cursor: pointer;
+    position: fixed;
+    width: 15em;
+}
+
+.github-button {
+    align-items: center;
+    color: #fff;
+    height: 1.5em;
+    margin-top: 0.2em;
+    margin-right: 0.4em;
+    float: right !important;
+    cursor: pointer;
+}
+
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    cursor: pointer;
+}
+
+/* Status bar */
+.status-bar {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: bold;
+    position: absolute;
+    padding: 1px 5px;
+    background-color: rgb(56, 216, 75);
+    color: #ffffff;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    height: 18px;
+    z-index: 999;
+}
+
+.status-bar p {
+    margin: 0;
+}
+
+#terminal {
+    font-size: 14px;
+    color: white;
+    background-color: rgb(36, 38, 49);
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: calc(100% - 18px);
+}
+
+#terminal p {
+    margin: 0;
+    width: 100%;
+}
+
+/* Scroll design */
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px grey;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(50, 187, 16, 0.2);
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(50, 187, 16, 0.7);
+}
+.app_editor_wrapper {
+    width: 50%;
+    background-color: rgb(36, 38, 49);
+    border-bottom: 1px solid #222222;
+}
